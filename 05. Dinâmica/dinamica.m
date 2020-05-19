@@ -9,13 +9,7 @@ clc
 % 5   90°           0           0       theta5
 
 % t1 = theta1; t1p = theta1 ponto;
-syms t1(t) t2(t) t3(t) t4(t) t5(t) L1 L2 L3 L4 T(alpha, a, d, theta)
-
-t1p = diff(t1,t);
-t2p = diff(t2,t);
-t3p = diff(t3,t);
-t4p = diff(t4,t);
-t5p = diff(t5,t);
+syms t1(t) t2(t) t3(t) t4(t) t5(t) L1 L2 L3 L4 T(alpha, a, d, theta) t1p(t) t2p(t) t3p(t) t4p(t) t5p(t)
 
 %% Funcao simbolica para gerar matriz T dados (alpha, a, d, theta)
 T = @(alpha, a, d, theta) [cos(theta),            -sin(theta),           0,           a;
@@ -83,19 +77,19 @@ O45 = T45(1:3,4);
 v_0_0 = [0; 0; 0];
 w_0_0 = [0; 0; 0];
 
-w_1_1 = R10*w_0_0 + [0; 0; t1p];
+w_1_1 = R10*w_0_0 + [0; 0; t1p(t)];
 v_1_1 = R10*(v_0_0 + cross(w_0_0, O01));
 
-w_2_2 = R21*w_1_1 + [0; 0; t2p];
+w_2_2 = R21*w_1_1 + [0; 0; t2p(t)];
 v_2_2 = R21*(v_1_1 + cross(w_1_1, O12));
 
-w_3_3 = R32*w_2_2 + [0; 0; t3p];
+w_3_3 = R32*w_2_2 + [0; 0; t3p(t)];
 v_3_3 = R32*(v_2_2 + cross(w_2_2, O23));
 
-w_4_4 = R43*w_3_3 + [0; 0; t4p];
+w_4_4 = R43*w_3_3 + [0; 0; t4p(t)];
 v_4_4 = R43*(v_3_3 + cross(w_3_3, O34));
 
-w_5_5 = R54*w_4_4 + [0; 0; t5p];
+w_5_5 = R54*w_4_4 + [0; 0; t5p(t)];
 v_5_5 = R54*(v_4_4 + cross(w_4_4, O45));
 
 %% 
@@ -129,40 +123,48 @@ O0C5 = R05*O5C5;
 v_1_c1 = v_1_1 + cross(w_1_1, O1C1);
 v_2_c2 = v_2_2 + cross(w_2_2, O2C2);
 v_3_c3 = v_3_3 + cross(w_3_3, O3C3);
-v_4_c4 = v_4_4 + cross(w_4_4, O4C4);
-v_5_c5 = v_5_5 + cross(w_5_5, O5C5);
+% v_4_c4 = v_4_4 + cross(w_4_4, O4C4);
+% v_5_c5 = v_5_5 + cross(w_5_5, O5C5);
 
 % Velocidades dos centros de massa de cada ligamento com relação ao
 % referencial inercial {0}
 v_0_c1 = R01*v_1_c1;
 v_0_c2 = R02*v_2_c2;
 v_0_c3 = R03*v_3_c3;
-v_0_c4 = R04*v_4_c4;
-v_0_c5 = R05*v_5_c5;
+% v_0_c4 = R04*v_4_c4;
+% v_0_c5 = R05*v_5_c5;
 
 % Energia cinetica para cada ligamento
 k1 = k(m1, v_0_c1, w_1_1, I1);
 k2 = k(m2, v_0_c2, w_2_2, I2);
 k3 = k(m3, v_0_c3, w_3_3, I3);
-k4 = k(m4, v_0_c4, w_4_4, I4);
-k5 = k(m5, v_0_c5, w_5_5, I5);
+% k4 = k(m4, v_0_c4, w_4_4, I4);
+% k5 = k(m5, v_0_c5, w_5_5, I5);
 
 % Energia cinetica do sistema
-k = k1 + k2 + k3 + k4 + k5;
+k = k1 + k2 + k3 %+ k4 + k5;
 
 % Energia potencial para cada ligamento
 u1 = u(m1, g, O0C1, 0);
 u2 = u(m2, g, O0C2, 0);
 u3 = u(m3, g, O0C3, 0);
-u4 = u(m4, g, O0C4, 0);
-u5 = u(m5, g, O0C5, 0);
+% u4 = u(m4, g, O0C4, 0);
+% u5 = u(m5, g, O0C5, 0);
 
 % Energia potencial do sistema
-u = u1 + u2 + u3 + u4 + u5;
+u = u1 + u2 + u3 %+ u4 + u5;
 
 % Lagrangiano
-dk_dthetap = functionalDerivative(k,[t1p t2p t3p t4p t5p]);
-dk_dtheta = functionalDerivative(k,[t1 t2 t3 t4 t5]);
-du_dtheta = functionalDerivative(u,[t1 t2 t3 t4 t5]);
+% dk_dthetap = functionalDerivative(k,[t1p(t) t2p(t) t3p(t) t4p(t) t5p(t)]);
+% dk_dtheta = functionalDerivative(k,[t1(t) t2(t) t3(t) t4(t) t5(t)]);
+% du_dtheta = functionalDerivative(u,[t1(t) t2(t) t3(t) t4(t) t5(t)]);
+
+dk_dthetap = functionalDerivative(k,[t1p(t) t2p(t) t3p(t)]);
+dk_dtheta = functionalDerivative(k,[t1(t) t2(t) t3(t)]);
+du_dtheta = functionalDerivative(u,[t1(t) t2(t) t3(t)]);
 
 tal = diff(dk_dthetap,t) + dk_dtheta + du_dtheta;
+%%
+
+M = collect(tal, [diff(t1p(t), t) diff(t2(t), t) diff(t3(t), t)]);
+% tal = subs(tal, [t1p(t) t2p(t) t3p(t) t4p(t) t5p(t)], [diff(t1(t), t) diff(t2(t), t) diff(t3(t), t) diff(t4(t), t) diff(t5(t), t)]);
