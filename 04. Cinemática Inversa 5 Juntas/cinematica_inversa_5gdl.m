@@ -5,7 +5,7 @@ clc
 % 1    0            0           0       theta1
 % 2   90°           0           0       theta2
 % 3    0           L2           0       theta3
-% 4   270°          0           0       theta4
+% 4   270°          0       L3+L4       theta4
 % 5   90°           0           0       theta5
 
 syms t1 t2 t3 t4 t5 L1 L2 L3 L4 T(alpha, a, d, theta)
@@ -63,11 +63,11 @@ R03 = simplify(R01*R12*R23);         % Rotaciona de {3} para {0}
 R04 = simplify(R01*R12*R23*R34);     % Rotaciona de {4} para {0}
 R05 = simplify(R01*R12*R23*R34*R45); % Rotaciona de {5} para {0}
 
-t1_val = pi/4;
-t2_val = pi/4;
-t3_val = pi/4;
-t4_val = pi/4;
-t5_val = pi/4;
+t1_val = 0;
+t2_val = 0;
+t3_val = 0;
+t4_val = 0;
+t5_val = 0;
 
 L0_val = 10;
 L1_val = 20;
@@ -196,22 +196,14 @@ a = L2 - (L3+L4)*S3;
 b_1 = (L3+L4)*C3_1;
 b_2 = (L3+L4)*C3_2;
 
-theta2_1_1 = atan2(a,b_1) + acos(pz/(sqrt(a^2 + b_1^2)));
-theta2_2_1 = atan2(a,b_1) - acos(pz/(sqrt(a^2 + b_1^2)));
-theta2_1_2 = atan2(a,b_2) + acos(pz/(sqrt(a^2 + b_2^2)));
-theta2_2_2 = atan2(a,b_2) - acos(pz/(sqrt(a^2 + b_2^2)));
-
-% theta2_1_1 = 2*atan2(a + sqrt(a^2 - pz^2 + b_1^2), pz + b_1); % t2_1 que veio de t3_1
-% theta2_1_2 = 2*atan2(a + sqrt(a^2 - pz^2 + b_2^2), pz + b_2); % t2_1 que veio de t3_2
-% theta2_2_1 = 2*atan2(a - sqrt(a^2 - pz^2 + b_1^2), pz + b_1); % t2_2 que veio de t3_1
-% theta2_2_2 = 2*atan2(a - sqrt(a^2 - pz^2 + b_2^2), pz + b_2); % t2_2 que veio de t3_2
+theta2_1 = atan2(a,b_1) - acos(pz/(sqrt(a^2 + b_1^2)));
+theta2_2 = atan2(a,b_2) - acos(pz/(sqrt(a^2 + b_2^2)));
 
 % theta1
 theta1 = atan2(py, px);
-% theta1_2 = atan2(-py, -px); % PQ ISSO "FUNCIONA"?? ACHEI 4 SOLUCOES PARA t2, mas só duas funcionam sem essa definição de t1 
 
 % Selecionando ax,ay,az = [0,0,1] na seguinte matriz de rotacao R05:
-% Te = [nx, ox, ax; = [nx, ox, 0;
+% Re = [nx, ox, ax; = [nx, ox, 0;
 %       ny, oy, ay;    ny, oy, 0;
 %       nz, pz, az];   nz, pz, 1];
 
@@ -221,15 +213,10 @@ theta4_2 = -pi/2;
 theta5 = atan2(oy*cos(theta1) - ox*sin(theta1), nx*sin(theta1) - ny*cos(theta1));
 
 % Todas as solucoes ate o momento
-q1 = double([theta1, theta2_1_1, theta3_1, theta4_1, theta5]); % SE COLOCAR theta1_2 aqui, funciona (?)
-q2 = double([theta1, theta2_1_2, theta3_2, theta4_1, theta5]); % SE COLOCAR theta1_2 aqui, funciona (?)
-q3 = double([theta1, theta2_2_1, theta3_1, theta4_1, theta5]);
-q4 = double([theta1, theta2_2_2, theta3_2, theta4_1, theta5]);
-
-q5 = double([theta1, theta2_1_1, theta3_1, theta4_2, theta5]);
-q6 = double([theta1, theta2_1_2, theta3_2, theta4_2, theta5]);
-q7 = double([theta1, theta2_2_1, theta3_1, theta4_2, theta5]);
-q8 = double([theta1, theta2_2_2, theta3_2, theta4_2, theta5]);
+q1 = double([theta1, theta2_1, theta3_1, theta4_1, theta5]);
+q2 = double([theta1, theta2_2, theta3_2, theta4_1, theta5]);
+q3 = double([theta1, theta2_1, theta3_1, theta4_2, theta5]);
+q4 = double([theta1, theta2_2, theta3_2, theta4_2, theta5]);
 
 
 %% PLOT SOLUCOES
