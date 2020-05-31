@@ -110,17 +110,19 @@ J = [diff(v_0_5, t1p), diff(v_0_5, t2p), diff(v_0_5, t3p), diff(v_0_5, t4p), dif
 % determinado pelo versor do ligamento na base {0} (= R(0,i)*[versor na
 % base {i}]) multiplicado pelo seu comprimento.
 
+close all
+
 t1_val = 0;
 t2_val = 0;
 t3_val = -pi/2;
-t4_val = pi/4;
+t4_val = 0;
 t5_val = pi/2;
-L0_val = 10;
-L1_val = 10;
-L2_val = 10;
-L3_val = 10;
-L4_val = 10;
-L5_val = 5;
+L0_val = 0.050; % [m]
+L1_val = 0.226; % [m]
+L2_val = 0.250; % [m]
+L3_val = 0.160; % [m]
+L4_val = 0.072; % [m]
+L5_val = 0.075; % [m]
 
 T01_val = subs(T01, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
 T02_val = subs(T02, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
@@ -138,9 +140,9 @@ figure
 hold on
 view([45 25])
 grid
-xlim([-50 50])
-ylim([-50 50])
-zlim([-50 50])
+xlim([-0.6 0.6])
+ylim([-0.6 0.6])
+zlim([-0.2 0.6])
 
 p0 = [0; 0; 0]; % Coordenadas da origem 
 
@@ -197,3 +199,7 @@ arm5_x = [L5_1(1) L5_2(1)];
 arm5_y = [L5_1(2) L5_2(2)];
 arm5_z = [L5_1(3) L5_2(3)];
 plot3(arm5_x, arm5_y, arm5_z, 'LineWidth',3)
+
+xlabel('x','FontSize',16)
+ylabel('y','FontSize',16)
+zlabel('z','FontSize',16)
