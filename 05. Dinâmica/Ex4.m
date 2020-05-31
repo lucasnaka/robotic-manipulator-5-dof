@@ -37,7 +37,7 @@ Ts = 1/100;
 SP_theta = [60;-110;20;20;20];
 
 % sim('ControlePD_ind')
-sim('ControlePD_ind')
+sim('malha_aberta')
 
 % Plots
 close all

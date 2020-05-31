@@ -222,9 +222,10 @@ theta1 = atan2(py, px);
 
 % theta4_1 = pi/2;
 % theta4_2 = -pi/2;
-theta4_1 = atan2(sqrt((ny*cos(theta1) - nx*sin(theta1))^2 + (oy*cos(theta1) - ox*sin(theta1))^2), -ay*cos(theta1) + ax*sin(theta1));
-theta4_2 = atan2(-sqrt((ny*cos(theta1) - nx*sin(theta1))^2 + (oy*cos(theta1) - ox*sin(theta1))^2), -ay*cos(theta1) + ax*sin(theta1));
-
+% theta4_1 = atan2(sqrt((ny*cos(theta1) - nx*sin(theta1))^2 + (oy*cos(theta1) - ox*sin(theta1))^2), -ay*cos(theta1) + ax*sin(theta1));
+% theta4_2 = atan2(-sqrt((ny*cos(theta1) - nx*sin(theta1))^2 + (oy*cos(theta1) - ox*sin(theta1))^2), -ay*cos(theta1) + ax*sin(theta1));
+theta4_1 = atan2(sqrt(az^2 + (ax*cos(theta1) - ay*sin(theta1))^2), ax*sin(theta1) - ay*cos(theta1));
+theta4_2 = atan2(-sqrt(az^2 + (ax*cos(theta1) - ay*sin(theta1))^2), ax*sin(theta1) - ay*cos(theta1));
 % Calculo de theta5
 theta5 = atan2(oy*cos(theta1) - ox*sin(theta1), nx*sin(theta1) - ny*cos(theta1));
 
