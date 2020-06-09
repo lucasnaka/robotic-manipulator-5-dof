@@ -184,9 +184,28 @@ nz = T05_val(3,1);
 
 %% PIEPER
 
+% Matriz definida pelo operador. Nos definimos a seguinte matriz:
+% Re = [nx, ox, ax; = [nx, ox, ax; = [c_gamma*s_beta,  s_gamma, -c_gamma*c_beta;
+%       ny, oy, ay;    ny,  0, ay;            c_beta,        0,          s_beta;
+%       nz, oz, az];   nz, oz, az];   s_gamma*s_beta, -c_gamma, -s_gamma*c_beta;]
+
+gamma = 0;
+beta = 0;
+
+nx = cos(gamma)*sin(beta)
+ny = cos(beta)
+nz = sin(gamma)*sin(beta);
+ox = sin(gamma)
+oz = -cos(gamma);
+ax = -cos(gamma)*cos(beta);
+ay = sin(beta);
+az = -sin(gamma)*cos(beta);
 L2 = L2_val;
 L3 = L3_val;
 L4 = L4_val;
+px = 1/4;
+py = 1/4;
+pz = 1/4;
 
 % Calculo de theta3
 r = px^2 + py^2 + pz^2;
@@ -237,7 +256,7 @@ end
 
 % Calculo de theta5
 for i=1:length(theta1)
-    theta5(i) = atan2(-ox*sin(theta1(i)), nx*sin(theta1(i)) - ny*cos(theta1(i)));
+    theta5(i) = atan2(-ox*sin(theta1(i)), nx*sin(theta1(i)) - ny*cos(theta1(i)))
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -249,10 +268,6 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Calculo de theta4
-% Re = [nx, ox, ax; = [nx, ox, ax;
-%       ny, oy, ay;    ny,  0, ay;
-%       nz, pz, az];   nz, pz, az];
-
 % Primeira solucao de theta4 do tipo:
 % atan2(sqrt(az^2 + (ax*c1 - ay*s1)^2), ax*s1 - ay*c1)
 for i=1:length(g1)
