@@ -193,53 +193,95 @@ r = px^2 + py^2 + pz^2;
 S3 = (L2^2 + (L3+L4)^2 - r) / (2*L2*(L3+L4));
 C3_1 = sqrt(1 - S3^2); 
 C3_2 = -C3_1;
-theta3_1 = atan2(S3, C3_1);
-theta3_2 = atan2(S3, C3_2);
+theta3 = [atan2(S3, C3_1), atan2(S3, C3_2)];
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Temos ate o momento:
+% theta3(1) e theta3(2)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Calculo de theta2
 a = L2 - (L3+L4)*S3;
 b_1 = (L3+L4)*C3_1;
 b_2 = (L3+L4)*C3_2;
 
-% theta2_1 = atan2(a,b_1) - acos(pz/(sqrt(a^2 + b_1^2)));
-% theta2_2 = atan2(a,b_2) - acos(pz/(sqrt(a^2 + b_2^2)));
-% theta2_3 = atan2(a,b_1) + acos(pz/(sqrt(a^2 + b_1^2)));
-% theta2_4 = atan2(a,b_2) + acos(pz/(sqrt(a^2 + b_2^2)));
+theta2 = [atan2(a,b_1) - acos(pz/(sqrt(a^2 + b_1^2))), ...
+          atan2(a,b_1) + acos(pz/(sqrt(a^2 + b_1^2))), ...
+          atan2(a,b_2) - acos(pz/(sqrt(a^2 + b_2^2))), ...
+          atan2(a,b_2) + acos(pz/(sqrt(a^2 + b_2^2)))];
+      
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Temos ate o momento:
+% [theta2(1), theta3(1)]
+% [theta2(2), theta3(1)]
+% [theta2(3), theta3(2)]
+% [theta2(4), theta3(2)]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-theta2_1 = 2*atan2(a + sqrt(a^2 - pz^2 + b_1^2), pz + b_1);
-theta2_2 = 2*atan2(a + sqrt(a^2 - pz^2 + b_2^2), pz + b_2);
-theta2_3 = 2*atan2(a - sqrt(a^2 - pz^2 + b_1^2), pz + b_1);
-theta2_4 = 2*atan2(a - sqrt(a^2 - pz^2 + b_2^2), pz + b_2);
+for i=1:length(theta2)
+    g1(i) = L2*cos(theta2(i)) - (L3+L4)*sin(theta2(i) + theta3(ceil(i/2)));
+end
 
 % Calculo de theta1
-theta1 = atan2(py, px);
+for i=1:length(g1)
+    theta1(i) = atan2(py/g1(i), px/g1(i));
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Temos ate o momento:
+% [theta1(1), theta2(1), theta3(1)]
+% [theta1(2), theta2(2), theta3(1)]
+% [theta1(3), theta2(3), theta3(2)]
+% [theta1(4), theta2(4), theta3(2)]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Calculo de theta5
+for i=1:length(theta1)
+    theta5(i) = atan2(-ox*sin(theta1(i)), nx*sin(theta1(i)) - ny*cos(theta1(i)));
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Temos ate o momento:
+% [theta1(1), theta2(1), theta3(1), theta5(1)]
+% [theta1(2), theta2(2), theta3(1), theta5(2)]
+% [theta1(3), theta2(3), theta3(2), theta5(3)]
+% [theta1(4), theta2(4), theta3(2), theta5(4)]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Calculo de theta4
-% Selecionando ax,ay,az = [0,0,1] na seguinte matriz de rotacao R05:
-% Re = [nx, ox, ax; = [nx, ox, 0;
-%       ny, oy, ay;    ny, oy, 0;
-%       nz, pz, az];   nz, pz, 1];
+% Re = [nx, ox, ax; = [nx, ox, ax;
+%       ny, oy, ay;    ny,  0, ay;
+%       nz, pz, az];   nz, pz, az];
 
-% theta4_1 = pi/2;
-% theta4_2 = -pi/2;
-% theta4_1 = atan2(sqrt((ny*cos(theta1) - nx*sin(theta1))^2 + (oy*cos(theta1) - ox*sin(theta1))^2), -ay*cos(theta1) + ax*sin(theta1));
-% theta4_2 = atan2(-sqrt((ny*cos(theta1) - nx*sin(theta1))^2 + (oy*cos(theta1) - ox*sin(theta1))^2), -ay*cos(theta1) + ax*sin(theta1));
-theta4_1 = atan2(sqrt(az^2 + (ax*cos(theta1) - ay*sin(theta1))^2), ax*sin(theta1) - ay*cos(theta1));
-theta4_2 = atan2(-sqrt(az^2 + (ax*cos(theta1) - ay*sin(theta1))^2), ax*sin(theta1) - ay*cos(theta1));
-% Calculo de theta5
-theta5 = atan2(oy*cos(theta1) - ox*sin(theta1), nx*sin(theta1) - ny*cos(theta1));
+% Primeira solucao de theta4 do tipo:
+% atan2(sqrt(az^2 + (ax*c1 - ay*s1)^2), ax*s1 - ay*c1)
+for i=1:length(g1)
+    theta4(i) = atan2(sqrt(az^2 + (ax*cos(theta1(i)) - ay*sin(theta1(i)))^2), ax*sin(theta1(i)) - ay*cos(theta1(i)));
+end
+
+% Segunda solucao de theta4 do tipo:
+% atan2(-sqrt(az^2 + (ax*c1 - ay*s1)^2), ax*s1 - ay*c1)
+for i=1:length(g1)
+    theta4(length(g1)+i) = atan2(-sqrt(az^2 + (ax*cos(theta1(i)) - ay*sin(theta1(i)))^2), ax*sin(theta1(i)) - ay*cos(theta1(i)));
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Temos ate o momento:
+% [theta1(1), theta2(1), theta3(1), theta4(1), theta5(1)]
+% [theta1(2), theta2(2), theta3(1), theta4(2), theta5(2)]
+% [theta1(3), theta2(3), theta3(2), theta4(3), theta5(3)]
+% [theta1(4), theta2(4), theta3(2), theta4(4), theta5(4)]
+% [theta1(1), theta2(1), theta3(1), theta4(5), theta5(1)]
+% [theta1(2), theta2(2), theta3(1), theta4(6), theta5(2)]
+% [theta1(3), theta2(3), theta3(2), theta4(7), theta5(3)]
+% [theta1(4), theta2(4), theta3(2), theta4(8), theta5(4)]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Todas as solucoes ate o momento
-q1 = double([theta1, theta2_1, theta3_1, theta4_1, theta5]);
-q2 = double([theta1, theta2_1, theta3_1, theta4_2, theta5]);
-q3 = double([theta1, theta2_2, theta3_2, theta4_1, theta5]);
-q4 = double([theta1, theta2_2, theta3_2, theta4_2, theta5]);
-q5 = double([theta1, theta2_3, theta3_1, theta4_1, theta5]);
-q6 = double([theta1, theta2_3, theta3_1, theta4_2, theta5]);
-q7 = double([theta1, theta2_4, theta3_2, theta4_1, theta5]);
-q8 = double([theta1, theta2_4, theta3_2, theta4_2, theta5]);
-
-all_q = [q1; q2; q3; q4; q5; q6; q7; q8];
+all_q = [];
+for i=1:length(theta4)
+    all_q = [all_q; double([theta1(i - floor((i-1)/4)*4), theta2(i - floor((i-1)/4)*4), theta3(ceil(i/2) - floor((i-1)/4)*2), theta4(i), theta5(i - floor((i-1)/4)*4)])];
+end
 
 %% PLOT SOLUCOES
 
@@ -303,7 +345,7 @@ for i=1:length(all_q)
     arm4_z = [L4_1(3) L4_2(3)];
     plot3(arm4_x, arm4_y, arm4_z, 'LineWidth',3)
     % Ligamento 5
-    r5 = R05_val * [1; 0; 0]; 
+    r5 = R05_val * [0; 1; 0]; 
     L5_1 = L4_2;
     L5_2 = L5_1 + L5_val*r5;
     arm5_x = [L5_1(1) L5_2(1)];

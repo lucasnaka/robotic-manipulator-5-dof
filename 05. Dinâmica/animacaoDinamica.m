@@ -97,8 +97,8 @@ ylabel('y','FontSize',16)
 zlabel('z','FontSize',16)
 
 % Objeto de video
-v = VideoWriter('simulacaoDinamica2.avi');
-v.FrameRate = 100; % ainda não sei o melhor valor, talvez igualar ao timestep da simulação pra simular um tempo real
+v = VideoWriter('simulacaoDinamicaMany2.avi');
+v.FrameRate = 20; % ainda não sei o melhor valor, talvez igualar ao timestep da simulação pra simular um tempo real
 
 open(v);
 

@@ -116,7 +116,7 @@ t1_val = 0;
 t2_val = 0;
 t3_val = -pi/2;
 t4_val = 0;
-t5_val = pi/2;
+t5_val = -pi/2;
 L0_val = 0.050; % [m]
 L1_val = 0.226; % [m]
 L2_val = 0.250; % [m]
@@ -192,7 +192,7 @@ arm4_z = [L4_1(3) L4_2(3)];
 plot3(arm4_x, arm4_y, arm4_z, 'LineWidth',3)
  
 % Ligamento 5
-r5 = R05_val * [1; 0; 0]; 
+r5 = R05_val * [0; 1; 0]; 
 L5_1 = L4_2;
 L5_2 = L5_1 + L5_val*r5;
 arm5_x = [L5_1(1) L5_2(1)];
