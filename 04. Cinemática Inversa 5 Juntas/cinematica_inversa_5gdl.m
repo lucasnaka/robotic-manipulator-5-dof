@@ -1,3 +1,4 @@
+close all
 clear
 clc
 
@@ -64,9 +65,11 @@ R03 = simplify(combine(R01*R12*R23));         % Rotaciona de {3} para {0}
 R04 = simplify(combine(R01*R12*R23*R34));     % Rotaciona de {4} para {0}
 R05 = simplify(combine(R01*R12*R23*R34*R45)); % Rotaciona de {5} para {0}
 
+offset3 = -pi/2;
+
 t1_val = 0;
-t2_val = 0; % pi/2;
-t3_val = 0; % -pi/2;
+t2_val = pi/4; 
+t3_val = pi/4 + offset3;
 t4_val = 0;
 t5_val = 0;
 
@@ -93,8 +96,8 @@ figure
 hold on
 view([45 25])
 grid
-xlim([-0.6 0.8])
-ylim([-0.6 0.8])
+xlim([-0.8 0.8])
+ylim([-0.8 0.8])
 zlim([-0.2 0.8])
 
 p0 = [0; 0; 0]; % Coordenadas da origem 
@@ -189,30 +192,61 @@ nz = T05_val(3,1);
 %       ny, oy, ay;    ny,  0, ay;            c_beta,        0,          s_beta;
 %       nz, oz, az];   nz, oz, az];   s_gamma*s_beta, -c_gamma, -s_gamma*c_beta;]
 
-gamma = 0;
+gamma = pi/4;
 beta = 0;
 
-nx = cos(gamma)*sin(beta)
-ny = cos(beta)
-nz = sin(gamma)*sin(beta);
-ox = sin(gamma)
-oz = -cos(gamma);
-ax = -cos(gamma)*cos(beta);
-ay = sin(beta);
-az = -sin(gamma)*cos(beta);
+Rgamma = [sin(gamma)  cos(gamma) 0;
+          0           0          -1;
+          -cos(gamma) sin(gamma) 0];
+
+Rbeta = [0           1            0;
+         sin(beta)   0   -cos(beta);
+         -cos(beta)  0  -sin(beta)];
+     
+Robjetivo = Rbeta * Rgamma;
+
+ax = Robjetivo(1,3);
+ay = Robjetivo(2,3);
+az = Robjetivo(3,3);
+
+ox = Robjetivo(1,2);
+oy = Robjetivo(2,2);
+oz = Robjetivo(3,2);
+
+nx = Robjetivo(1,1);
+ny = Robjetivo(2,1);
+nz = Robjetivo(3,1);
+
+
+% nx = cos(gamma)*sin(beta);
+% ny = cos(beta);
+% nz = sin(gamma)*sin(beta);
+% ox = sin(gamma);
+% oy = 0;
+% oz = -cos(gamma);
+% ax = -cos(gamma)*cos(beta);
+% ay = sin(beta);
+% az = -sin(gamma)*cos(beta);
+px = 2^(1/2)/8;
+py = 0;
+pz = 2^(1/2)/8 + 29/125;
+
 L2 = L2_val;
 L3 = L3_val;
 L4 = L4_val;
-px = 1/4;
-py = 1/4;
-pz = 1/4;
+
 
 % Calculo de theta3
 r = px^2 + py^2 + pz^2;
 S3 = (L2^2 + (L3+L4)^2 - r) / (2*L2*(L3+L4));
-C3_1 = sqrt(1 - S3^2); 
-C3_2 = -C3_1;
-theta3 = [atan2(S3, C3_1), atan2(S3, C3_2)];
+if(abs(S3) > 1 )
+    disp('Espaco nao alcancavel :( ')
+    return
+else
+    C3_1 = sqrt(1 - S3^2); 
+    C3_2 = -C3_1;
+    theta3 = [atan2(S3, C3_1), atan2(S3, C3_2)];
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Temos ate o momento:
@@ -255,9 +289,10 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Calculo de theta5
-for i=1:length(theta1)
-    theta5(i) = atan2(-ox*sin(theta1(i)), nx*sin(theta1(i)) - ny*cos(theta1(i)))
-end
+theta5 = atan2(-ox*sin(theta1), nx*sin(theta1) - ny*cos(theta1));
+% for i=1:length(theta1)
+%     theta5(i) = atan2(-ox*sin(theta1(i)), nx*sin(theta1(i)) - ny*cos(theta1(i)))
+% end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Temos ate o momento:
@@ -270,9 +305,10 @@ end
 % Calculo de theta4
 % Primeira solucao de theta4 do tipo:
 % atan2(sqrt(az^2 + (ax*c1 - ay*s1)^2), ax*s1 - ay*c1)
-for i=1:length(g1)
-    theta4(i) = atan2(sqrt(az^2 + (ax*cos(theta1(i)) - ay*sin(theta1(i)))^2), ax*sin(theta1(i)) - ay*cos(theta1(i)));
-end
+S4 = az ./ sin(theta2(2) + theta3(2));
+% for i=1:length(g1)
+%     theta4(i) = atan2(sqrt(az^2 + (ax*cos(theta1(i)) - ay*sin(theta1(i)))^2), ax*sin(theta1(i)) - ay*cos(theta1(i)));
+% end
 
 % Segunda solucao de theta4 do tipo:
 % atan2(-sqrt(az^2 + (ax*c1 - ay*s1)^2), ax*s1 - ay*c1)
@@ -302,6 +338,10 @@ end
 
 disp('CINEMATICA INVERSA')
 
+X = [1; 0; 0];
+Y = [0; 1; 0];
+Z = [0; 0; 1];
+
 for i=1:length(all_q)
     disp(strcat('q',int2str(i),' = '))
     disp(all_q(i,:))
@@ -311,13 +351,16 @@ for i=1:length(all_q)
     R03_val = subs(R03, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
     R04_val = subs(R04, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
     R05_val = subs(R05, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
+    
+    vpa(R05_val'*[X, Y, Z])
+    
     figure
     hold on
     view([45 25])
     grid
-    xlim([-0.6 0.6])
-    ylim([-0.6 0.6])
-    zlim([-0.2 0.6])
+    xlim([-0.8 0.8])
+    ylim([-0.8 0.8])
+    zlim([-0.2 0.8])
     p0 = [0; 0; 0]; % Coordenadas da origem 
     % Ligamento 0 - base inferior do robô
     r0 = -L0_val * [0; 0; 1];   % Versor do ligamento 0 na base {0}
@@ -372,3 +415,53 @@ for i=1:length(all_q)
     ylabel('y','FontSize',16)
     zlabel('z','FontSize',16)
 end
+
+
+%% Verificacao da orientacao
+
+R05_obj = [nx, ox, ax;
+           ny, oy  ay;
+           nz, oz, az];  
+
+% {0}
+X = [1; 0; 0];
+Y = [0; 1; 0];
+Z = [0; 0; 1];
+
+% {5} objetivo
+X5obj = R05_obj' * X;
+Y5obj = R05_obj' * Y;
+Z5obj = R05_obj' * Z;
+
+% {5} obtido
+X5 = R05_val' * X;
+Y5 = R05_val' * Y;
+Z5 = R05_val' * Z;
+
+figure
+view([45 25])
+grid
+xlim([-2 2])
+ylim([-2 2])
+zlim([-2 2])
+hold on
+
+quiver3(0,0,0,X(1),X(2),X(3), 'Color', 'b', 'linewidth', 1.2);
+quiver3(0,0,0,Y(1),Y(2),Y(3), 'Color', 'b', 'linewidth', 1.2);
+h1 = quiver3(0,0,0,Z(1),Z(2),Z(3), 'Color', 'b', 'linewidth', 1.2);
+
+quiver3(0,0,0,X5obj(1),X5obj(2),X5obj(3), 'Color', 'r', 'linewidth', 1.2);
+quiver3(0,0,0,Y5obj(1),Y5obj(2),Y5obj(3), 'Color', 'r', 'linewidth', 1.2);
+h2 = quiver3(0,0,0,Z5obj(1),Z5obj(2),Z5obj(3), 'Color', 'r', 'linewidth', 1.2);
+
+quiver3(0,0,0,X5(1),X5(2),X5(3), 'Color', 'g', 'linewidth', 1.2);
+quiver3(0,0,0,Y5(1),Y5(2),Y5(3), 'Color', 'g', 'linewidth', 1.2);
+h3 = quiver3(0,0,0,Z5(1),Z5(2),Z5(3), 'Color', 'g', 'linewidth', 1.2);
+
+hold off
+
+legend([h1, h2, h3], '\{0\}', '\{5\} desejado', '\{5\} obtido')
+
+xlabel('x','FontSize',16)
+ylabel('y','FontSize',16)
+zlabel('z','FontSize',16)
