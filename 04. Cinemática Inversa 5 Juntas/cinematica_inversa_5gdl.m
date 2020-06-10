@@ -64,9 +64,11 @@ R03 = simplify(combine(R01*R12*R23));         % Rotaciona de {3} para {0}
 R04 = simplify(combine(R01*R12*R23*R34));     % Rotaciona de {4} para {0}
 R05 = simplify(combine(R01*R12*R23*R34*R45)); % Rotaciona de {5} para {0}
 
-t1_val = 0;
-t2_val = 0; % pi/2;
-t3_val = 0; % -pi/2;
+offset3 = -pi/2;
+
+t1_val = pi/4;
+t2_val = 0; 
+t3_val = pi/4 + offset3;
 t4_val = 0;
 t5_val = 0;
 
@@ -93,9 +95,9 @@ figure
 hold on
 view([45 25])
 grid
-xlim([-0.6 0.8])
-ylim([-0.6 0.8])
-zlim([-0.2 0.8])
+xlim([-0.6 0.6])
+ylim([-0.6 0.6])
+zlim([-0.2 0.6])
 
 p0 = [0; 0; 0]; % Coordenadas da origem 
 
@@ -192,20 +194,24 @@ nz = T05_val(3,1);
 gamma = 0;
 beta = 0;
 
-nx = cos(gamma)*sin(beta)
-ny = cos(beta)
+nx = cos(gamma)*sin(beta);
+ny = cos(beta);
 nz = sin(gamma)*sin(beta);
-ox = sin(gamma)
+ox = sin(gamma);
+oy = 0;
 oz = -cos(gamma);
 ax = -cos(gamma)*cos(beta);
 ay = sin(beta);
 az = -sin(gamma)*cos(beta);
+
+% px = 1/4;
+% py = 1/4;
+% pz = 1/4 - L1_val;
+
 L2 = L2_val;
 L3 = L3_val;
 L4 = L4_val;
-px = 1/4;
-py = 1/4;
-pz = 1/4;
+
 
 % Calculo de theta3
 r = px^2 + py^2 + pz^2;
@@ -372,3 +378,55 @@ for i=1:length(all_q)
     ylabel('y','FontSize',16)
     zlabel('z','FontSize',16)
 end
+
+
+%% Verificacao da orientacao
+
+R05_obj = [nx, ox, ax;
+           ny, oy  ay;
+           nz, oz, az];
+
+origem = [0; 0; 0]; % Coordenadas da origem       
+
+% {0}
+X = origem + [1; 0; 0];
+Y = origem + [0; 1; 0];
+Z = origem + [0; 0; 1];
+
+% {5} objetivo
+X5obj = R05_obj * X;
+Y5obj = R05_obj * Y;
+Z5obj = R05_obj * Z;
+
+% {5} obtido
+X5 = R05_val * X;
+Y5 = R05_val * Y;
+Z5 = R05_val * Z;
+
+figure
+view([45 25])
+grid
+xlim([-2 2])
+ylim([-2 2])
+zlim([-2 2])
+hold on
+
+quiver3(0,0,0,X(1),X(2),X(3), 'Color', 'b', 'linewidth', 1.2);
+quiver3(0,0,0,Y(1),Y(2),Y(3), 'Color', 'b', 'linewidth', 1.2);
+h1 = quiver3(0,0,0,Z(1),Z(2),Z(3), 'Color', 'b', 'linewidth', 1.2);
+
+quiver3(0,0,0,X5obj(1),X5obj(2),X5obj(3), 'Color', 'r', 'linewidth', 1.2);
+quiver3(0,0,0,Y5obj(1),Y5obj(2),Y5obj(3), 'Color', 'r', 'linewidth', 1.2);
+h2 = quiver3(0,0,0,Z5obj(1),Z5obj(2),Z5obj(3), 'Color', 'r', 'linewidth', 1.2);
+
+quiver3(0,0,0,X5(1),X5(2),X5(3), 'Color', 'g', 'linewidth', 1.2);
+quiver3(0,0,0,Y5(1),Y5(2),Y5(3), 'Color', 'g', 'linewidth', 1.2);
+h3 = quiver3(0,0,0,Z5(1),Z5(2),Z5(3), 'Color', 'g', 'linewidth', 1.2);
+
+hold off
+
+legend([h1, h2, h3], '\{0\}', '\{5\} desejado', '\{5\} obtido')
+
+xlabel('x','FontSize',16)
+ylabel('y','FontSize',16)
+zlabel('z','FontSize',16)
