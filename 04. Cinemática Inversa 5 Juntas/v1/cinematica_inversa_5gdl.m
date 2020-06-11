@@ -33,7 +33,7 @@ d3 = 0;
 
 alpha4 = pi/2;
 a4 = 0;
-d4 = L3;
+d4 = L3 + L4;
 
 d5 = 0;
 
@@ -68,43 +68,53 @@ R05 = simplify(combine(R01*R12*R23*R34*R45)); % Rotaciona de {5} para {0}
 offset3 = -pi/2;
 
 t1_val = 0;
-t2_val = 0; 
-t3_val = 0 + offset3;
+t2_val = pi/4; 
+t3_val = pi/4 + offset3;
 t4_val = 0;
 t5_val = 0;
 
 L0_val = 0.050; % [m]
 L1_val = 0.226; % [m]
 L2_val = 0.250; % [m]
-L3_val = 0.160; % [m] = 0.160 + 0.072 
-L4_val = 0.075; % [m]
+L3_val = 0.160; % [m]
+L4_val = 0.072; % [m]
+L5_val = 0.075; % [m]
 
-T01_val = subs(T01, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
-T02_val = subs(T02, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
-T03_val = subs(T03, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
-T04_val = subs(T04, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
-T05_val = subs(T05, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
+T01_val = subs(T01, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
+T02_val = subs(T02, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
+T03_val = subs(T03, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
+T04_val = subs(T04, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
+T05_val = subs(T05, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
 
-R01_val = subs(R01, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
-R02_val = subs(R02, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
-R03_val = subs(R03, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
-R04_val = subs(R04, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
-R05_val = subs(R05, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
+R01_val = subs(R01, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
+R02_val = subs(R02, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
+R03_val = subs(R03, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
+R04_val = subs(R04, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
+R05_val = subs(R05, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, t1_val, t2_val, t3_val, t4_val, t5_val});
 
 figure
 hold on
 view([45 25])
 grid
-xlim([-0.7 0.7])
-ylim([-0.7 0.7])
-zlim([-0.7 0.7])
+xlim([-0.8 0.8])
+ylim([-0.8 0.8])
+zlim([-0.2 0.8])
 
 p0 = [0; 0; 0]; % Coordenadas da origem 
 
+% Ligamento 0 - base inferior do robô
+r0 = -L0_val * [0; 0; 1];   % Versor do ligamento 0 na base {0}
+L0_1 = p0 + r0;             % Primeiro ponto do ligamento 0
+L0_2 = p0;                  % Segundo ponto do ligamento 0
+arm0_x = [L0_1(1) L0_2(1)];
+arm0_y = [L0_1(2) L0_2(2)];
+arm0_z = [L0_1(3) L0_2(3)];
+plot3(arm0_x, arm0_y, arm0_z, 'LineWidth',3)
+
 % Ligamento 1
-r1 = R01_val * [0; 0; -1];     
-L1_1 = p0 + L1_val*r1; 
-L1_2 = p0; 
+r1 = R01_val * [0; 0; 1];     
+L1_1 = L0_2; 
+L1_2 = L1_1 + L1_val*r1; 
 arm1_x = [L1_1(1) L1_2(1)];
 arm1_y = [L1_1(2) L1_2(2)];
 arm1_z = [L1_1(3) L1_2(3)];
@@ -129,13 +139,22 @@ arm3_z = [L3_1(3) L3_2(3)];
 plot3(arm3_x, arm3_y, arm3_z, 'LineWidth',3)
 
 % Ligamento 4
-r4 = R05_val * [0; 1; 0]; 
+r4 = R04_val * [0; 0; 1]; 
 L4_1 = L3_2;
 L4_2 = L4_1 + L4_val*r4;
 arm4_x = [L4_1(1) L4_2(1)];
 arm4_y = [L4_1(2) L4_2(2)];
 arm4_z = [L4_1(3) L4_2(3)];
 plot3(arm4_x, arm4_y, arm4_z, 'LineWidth',3)
+ 
+% Ligamento 5
+r5 = R05_val * [0; 1; 0]; 
+L5_1 = L4_2;
+L5_2 = L5_1 + L5_val*r5;
+arm5_x = [L5_1(1) L5_2(1)];
+arm5_y = [L5_1(2) L5_2(2)];
+arm5_z = [L5_1(3) L5_2(3)];
+plot3(arm5_x, arm5_y, arm5_z, 'LineWidth',3)
 
 xlabel('x','FontSize',16)
 ylabel('y','FontSize',16)
@@ -148,6 +167,23 @@ q = [t1_val, t2_val, t3_val, t4_val, t5_val];
 disp('CINEMATICA DIRETA')
 disp('q = ')
 disp(q)
+
+px = T05_val(1,4);
+py = T05_val(2,4);
+pz = T05_val(3,4);
+
+ax = T05_val(1,3);
+ay = T05_val(2,3);
+az = T05_val(3,3);
+
+ox = T05_val(1,2);
+oy = T05_val(2,2);
+oz = T05_val(3,2);
+
+nx = T05_val(1,1);
+ny = T05_val(2,1);
+nz = T05_val(3,1);
+
 
 %% PIEPER
 
@@ -181,6 +217,7 @@ nx = Robjetivo(1,1);
 ny = Robjetivo(2,1);
 nz = Robjetivo(3,1);
 
+
 % nx = cos(gamma)*sin(beta);
 % ny = cos(beta);
 % nz = sin(gamma)*sin(beta);
@@ -190,17 +227,18 @@ nz = Robjetivo(3,1);
 % ax = -cos(gamma)*cos(beta);
 % ay = sin(beta);
 % az = -sin(gamma)*cos(beta);
-
-px = L2_val + L3_val - 0.000001;
+px = 2^(1/2)/8;
 py = 0;
-pz = 0;
+pz = 2^(1/2)/8 + 29/125;
 
 L2 = L2_val;
 L3 = L3_val;
+L4 = L4_val;
+
 
 % Calculo de theta3
 r = px^2 + py^2 + pz^2;
-S3 = (L2^2 + L3^2 - r) / (2*L2*L3);
+S3 = (L2^2 + (L3+L4)^2 - r) / (2*L2*(L3+L4));
 if(abs(S3) > 1 )
     disp('Espaco nao alcancavel :( ')
     return
@@ -216,9 +254,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Calculo de theta2
-a = L2 - L3*S3;
-b_1 = L3*C3_1;
-b_2 = L3*C3_2;
+a = L2 - (L3+L4)*S3;
+b_1 = (L3+L4)*C3_1;
+b_2 = (L3+L4)*C3_2;
 
 theta2 = [atan2(a,b_1) - acos(pz/(sqrt(a^2 + b_1^2))), ...
           atan2(a,b_1) + acos(pz/(sqrt(a^2 + b_1^2))), ...
@@ -234,7 +272,7 @@ theta2 = [atan2(a,b_1) - acos(pz/(sqrt(a^2 + b_1^2))), ...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 for i=1:length(theta2)
-    g1(i) = L2*cos(theta2(i)) - L3*sin(theta2(i) + theta3(ceil(i/2)));
+    g1(i) = L2*cos(theta2(i)) - (L3+L4)*sin(theta2(i) + theta3(ceil(i/2)));
 end
 
 % Calculo de theta1
@@ -308,31 +346,38 @@ for i=1:length(all_q)
     disp(strcat('q',int2str(i),' = '))
     disp(all_q(i,:))
     
-    R01_val = subs(R01, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
-    R02_val = subs(R02, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
-    R03_val = subs(R03, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
-    R04_val = subs(R04, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
-    R05_val = subs(R05, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
-
+    R01_val = subs(R01, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
+    R02_val = subs(R02, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
+    R03_val = subs(R03, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
+    R04_val = subs(R04, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
+    R05_val = subs(R05, {L1, L2, L3, L4, t1, t2, t3, t4, t5}, {L1_val, L2_val, L3_val, L4_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
+    
+    vpa(R05_val'*[X, Y, Z])
+    
     figure
     hold on
     view([45 25])
     grid
-    xlim([-0.7 0.7])
-    ylim([-0.7 0.7])
-    zlim([-0.7 0.7])
-
+    xlim([-0.8 0.8])
+    ylim([-0.8 0.8])
+    zlim([-0.2 0.8])
     p0 = [0; 0; 0]; % Coordenadas da origem 
-
+    % Ligamento 0 - base inferior do robô
+    r0 = -L0_val * [0; 0; 1];   % Versor do ligamento 0 na base {0}
+    L0_1 = p0 + r0;             % Primeiro ponto do ligamento 0
+    L0_2 = p0;                  % Segundo ponto do ligamento 0
+    arm0_x = [L0_1(1) L0_2(1)];
+    arm0_y = [L0_1(2) L0_2(2)];
+    arm0_z = [L0_1(3) L0_2(3)];
+    plot3(arm0_x, arm0_y, arm0_z, 'LineWidth',3)
     % Ligamento 1
-    r1 = R01_val * [0; 0; -1];     
-    L1_1 = p0 + L1_val*r1; 
-    L1_2 = p0; 
+    r1 = R01_val * [0; 0; 1];     
+    L1_1 = L0_2; 
+    L1_2 = L0_2 + L1_val*r1; 
     arm1_x = [L1_1(1) L1_2(1)];
     arm1_y = [L1_1(2) L1_2(2)];
     arm1_z = [L1_1(3) L1_2(3)];
     plot3(arm1_x, arm1_y, arm1_z, 'LineWidth',3)
-
     % Ligamento 2
     r2 = R02_val * [1; 0; 0];       
     L2_1 = L1_2;
@@ -341,7 +386,6 @@ for i=1:length(all_q)
     arm2_y = [L2_1(2) L2_2(2)];
     arm2_z = [L2_1(3) L2_2(3)];
     plot3(arm2_x, arm2_y, arm2_z, 'LineWidth',3)
-
     % Ligamento 3
     r3 = R03_val * [0; 1; 0];       
     L3_1 = L2_2;
@@ -350,16 +394,23 @@ for i=1:length(all_q)
     arm3_y = [L3_1(2) L3_2(2)];
     arm3_z = [L3_1(3) L3_2(3)];
     plot3(arm3_x, arm3_y, arm3_z, 'LineWidth',3)
-
     % Ligamento 4
-    r4 = R05_val * [0; 1; 0]; 
+    r4 = R04_val * [0; 0; 1]; 
     L4_1 = L3_2;
     L4_2 = L4_1 + L4_val*r4;
     arm4_x = [L4_1(1) L4_2(1)];
     arm4_y = [L4_1(2) L4_2(2)];
     arm4_z = [L4_1(3) L4_2(3)];
     plot3(arm4_x, arm4_y, arm4_z, 'LineWidth',3)
-
+    % Ligamento 5
+    r5 = R05_val * [0; 1; 0]; 
+    L5_1 = L4_2;
+    L5_2 = L5_1 + L5_val*r5;
+    arm5_x = [L5_1(1) L5_2(1)];
+    arm5_y = [L5_1(2) L5_2(2)];
+    arm5_z = [L5_1(3) L5_2(3)];
+    plot3(arm5_x, arm5_y, arm5_z, 'LineWidth',3)
+    
     xlabel('x','FontSize',16)
     ylabel('y','FontSize',16)
     zlabel('z','FontSize',16)
