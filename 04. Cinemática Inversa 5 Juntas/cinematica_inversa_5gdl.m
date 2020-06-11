@@ -65,8 +65,8 @@ R04 = simplify(combine(R01*R12*R23*R34));     % Rotaciona de {4} para {0}
 R05 = simplify(combine(R01*R12*R23*R34*R45)); % Rotaciona de {5} para {0}
 
 t1_val = 0;
-t2_val = 0; % pi/2;
-t3_val = 0; % -pi/2;
+t2_val = pi/2;
+t3_val = -pi/2;
 t4_val = 0;
 t5_val = 0;
 

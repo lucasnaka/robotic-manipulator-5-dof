@@ -151,3 +151,53 @@ subplot(3,1,2)
 plot(t, dth_plot)
 subplot(3,1,3)
 plot(t, ddth_plot)
+
+%%
+% Linear function with parabolic blends [Craig pag 210]
+
+% Position equation coefficients
+ddth_tb(ddth_h, ddth_b, t_h, t_b) = (ddth_h - ddth_b)/(t_h - t_b);
+th_b(th_0, ddth_tb) = th_0 + 1/2*ddth_tb^2;
+t_b(t, ddth, th_f, th_0) = t/2 - sqrt(ddth^2*t^2 - 4*ddth^2(th_f - th_0))/2*ddth^2;
+
+% Numeric values
+th0 = 15;
+thf = 75;
+dth0 = 1;
+dthf = 1;
+ddth0 = 1;
+ddthf = -1;
+tf = 3;
+
+% Applying numeric values to determine coefficients
+a0 = a0(th0);
+a1 = a1(dth0);
+a2 = a2(ddth0);
+a3 = a3(th0, thf, dth0, dthf, ddth0, ddthf, tf);
+a4 = a4(th0, thf, dth0, dthf, ddth0, ddthf, tf);
+a5 = a5(th0, thf, dth0, dthf, ddth0, ddthf, tf);
+
+% Position, velocity and acceleration equations
+th(t) = a0 + a1*t + a2*t^2 + a3*t^3 + a4*t^4 + a5*t^5;
+dth(t) = a1 + 2*a2*t + 3*a3*t^2 + 4*a4*t^3 + 5*a5*t^4;
+ddth(t) = 2*a2 + 6*a3*t + 12*a4*t^2 + 20*a5*t^3;
+
+% Plot solutions
+t = 0:0.1:tf;
+th_plot = [];
+dth_plot = [];
+ddth_plot = [];
+
+for i=t
+    th_plot = [th_plot, th(i)];
+    dth_plot = [dth_plot, dth(i)];
+    ddth_plot = [ddth_plot, ddth(i)];
+end
+
+figure (1)
+subplot(3,1,1)
+plot(t, th_plot)
+subplot(3,1,2)
+plot(t, dth_plot)
+subplot(3,1,3)
+plot(t, ddth_plot)
