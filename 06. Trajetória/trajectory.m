@@ -245,3 +245,42 @@ subplot(3,1,2)
 plot(t, dth_plot)
 subplot(3,1,3)
 plot(t, ddth_plot)
+
+%% 
+% Usando a funcao de alto nivel "geraTrajetoria"
+clear all
+close all
+clc
+
+th0 = 15;
+th1 = 70;
+th2 = 13;
+th3 = 35;
+thf = 75;
+T = 3;
+
+% Arrange trajectory points in a vector
+traj_points = [th0, th1, th2, th3, thf];
+
+% Update rate and evaluation time vector
+rate = 0.1;
+
+% Call high level function
+[t, th, dth, ddth] = geraTrajetoria(traj_points, T, rate); 
+
+% Plot results
+figure (1)
+
+subplot(3,1,1)
+plot(t, th)
+title('Posicao')
+grid on
+subplot(3,1,2)
+plot(t, dth)
+title('Velocidade')
+grid on
+subplot(3,1,3)
+plot(t, ddth)
+title('Aceleracao')
+grid on
+xlabel('Tempo (s)')
