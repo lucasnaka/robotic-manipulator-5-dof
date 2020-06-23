@@ -67,16 +67,17 @@ R05 = simplify(combine(R01*R12*R23*R34*R45)); % Rotaciona de {5} para {0}
 
 offset3 = -pi/2;
 
-t1_val = 0;
-t2_val = 0; 
-t3_val = 0 + offset3;
-t4_val = 0;
-t5_val = 0;
+t1_val = pi/4;
+t2_val = pi/4; 
+t3_val = pi/4 + offset3;
+t4_val = pi/4;
+t5_val = pi/4;
 
 L0_val = 0.050; % [m]
 L1_val = 0.226; % [m]
 L2_val = 0.250; % [m]
-L3_val = 0.160; % [m] = 0.160 + 0.072 
+L3_val = 0.160 + 0.072; % [m]
+% L3_val = 0.160; % [m] = 0.160 + 0.072 
 L4_val = 0.075; % [m]
 
 T01_val = subs(T01, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
@@ -91,7 +92,7 @@ R03_val = subs(R03, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_va
 R04_val = subs(R04, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
 R05_val = subs(R05, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, t1_val, t2_val, t3_val, t4_val, t5_val});
 
-figure
+figure(1)
 hold on
 view([45 25])
 grid
@@ -152,9 +153,6 @@ disp(q)
 %% PIEPER
 
 % Matriz definida pelo operador. Nos definimos a seguinte matriz:
-% Re = [nx, ox, ax; = [nx, ox, ax; = [c_gamma*s_beta,  s_gamma, -c_gamma*c_beta;
-%       ny, oy, ay;    ny,  0, ay;            c_beta,        0,          s_beta;
-%       nz, oz, az];   nz, oz, az];   s_gamma*s_beta, -c_gamma, -s_gamma*c_beta;]
 
 gamma = pi/4;
 beta = 0;
@@ -181,19 +179,12 @@ nx = Robjetivo(1,1);
 ny = Robjetivo(2,1);
 nz = Robjetivo(3,1);
 
-% nx = cos(gamma)*sin(beta);
-% ny = cos(beta);
-% nz = sin(gamma)*sin(beta);
-% ox = sin(gamma);
-% oy = 0;
-% oz = -cos(gamma);
-% ax = -cos(gamma)*cos(beta);
-% ay = sin(beta);
-% az = -sin(gamma)*cos(beta);
-
-px = L2_val + L3_val - 0.000001;
-py = 0;
-pz = 0;
+% px = L2_val + L3_val - 1E-15;
+% py = 0;
+% pz = 0;
+px = T05_val(1,4);
+py = T05_val(2,4);
+pz = T05_val(3,4);
 
 L2 = L2_val;
 L3 = L3_val;
@@ -202,14 +193,14 @@ L3 = L3_val;
 r = px^2 + py^2 + pz^2;
 S3 = (L2^2 + L3^2 - r) / (2*L2*L3);
 if(abs(S3) > 1 )
-    disp('Espaco nao alcancavel :( ')
+    disp('Espaco nao alcancavel, erro no theta 3')
     return
 else
     C3_1 = sqrt(1 - S3^2); 
     C3_2 = -C3_1;
     theta3 = [atan2(S3, C3_1), atan2(S3, C3_2)];
 end
-
+%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Temos ate o momento:
 % theta3(1) e theta3(2)
@@ -221,90 +212,65 @@ b_1 = L3*C3_1;
 b_2 = L3*C3_2;
 
 theta2 = [atan2(a,b_1) - acos(pz/(sqrt(a^2 + b_1^2))), ...
-          atan2(a,b_1) + acos(pz/(sqrt(a^2 + b_1^2))), ...
           atan2(a,b_2) - acos(pz/(sqrt(a^2 + b_2^2))), ...
+          atan2(a,b_1) + acos(pz/(sqrt(a^2 + b_1^2))), ...
           atan2(a,b_2) + acos(pz/(sqrt(a^2 + b_2^2)))];
       
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Temos ate o momento:
 % [theta2(1), theta3(1)]
-% [theta2(2), theta3(1)]
-% [theta2(3), theta3(2)]
+% [theta2(2), theta3(2)]
+% [theta2(3), theta3(1)]
 % [theta2(4), theta3(2)]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-for i=1:length(theta2)
-    g1(i) = L2*cos(theta2(i)) - L3*sin(theta2(i) + theta3(ceil(i/2)));
-end
+g1 = L2*cos(theta2) - L3*sin(theta2 + repmat(theta3,1,2));
 
 % Calculo de theta1
-for i=1:length(g1)
-    theta1(i) = atan2(py/g1(i), px/g1(i));
-end
+theta1 = atan2(py./g1, px./g1);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Temos ate o momento:
 % [theta1(1), theta2(1), theta3(1)]
-% [theta1(2), theta2(2), theta3(1)]
-% [theta1(3), theta2(3), theta3(2)]
+% [theta1(2), theta2(2), theta3(2)]
+% [theta1(3), theta2(3), theta3(1)]
 % [theta1(4), theta2(4), theta3(2)]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Calculo de theta5
-theta5 = atan2(-ox*sin(theta1), nx*sin(theta1) - ny*cos(theta1));
-% for i=1:length(theta1)
-%     theta5(i) = atan2(-ox*sin(theta1(i)), nx*sin(theta1(i)) - ny*cos(theta1(i)))
-% end
+% Calculo de theta4
+S4 = -cos(theta1) ./ cos(theta2 + repmat(theta3,1,2));
+C4 = -sin(theta1);
+
+theta4 = atan2(S4,C4);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Temos ate o momento:
-% [theta1(1), theta2(1), theta3(1), theta5(1)]
-% [theta1(2), theta2(2), theta3(1), theta5(2)]
-% [theta1(3), theta2(3), theta3(2), theta5(3)]
-% [theta1(4), theta2(4), theta3(2), theta5(4)]
+% [theta1(1), theta2(1), theta3(1), theta4(1)]
+% [theta1(2), theta2(2), theta3(2), theta4(2)]
+% [theta1(3), theta2(3), theta3(1), theta4(3)]
+% [theta1(4), theta2(4), theta3(2), theta4(4)]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Calculo de theta4
-% Primeira solucao de theta4 do tipo:
-% atan2(sqrt(az^2 + (ax*c1 - ay*s1)^2), ax*s1 - ay*c1)
-S4 = az ./ sin(theta2(2) + theta3(2));
-% for i=1:length(g1)
-%     theta4(i) = atan2(sqrt(az^2 + (ax*cos(theta1(i)) - ay*sin(theta1(i)))^2), ax*sin(theta1(i)) - ay*cos(theta1(i)));
-% end
-
-% Segunda solucao de theta4 do tipo:
-% atan2(-sqrt(az^2 + (ax*c1 - ay*s1)^2), ax*s1 - ay*c1)
-for i=1:length(g1)
-    theta4(length(g1)+i) = atan2(-sqrt(az^2 + (ax*cos(theta1(i)) - ay*sin(theta1(i)))^2), ax*sin(theta1(i)) - ay*cos(theta1(i)));
-end
+% Calculo de theta5
+S5 = oy*cos(theta1)./-sin(theta4);
+C5 = ny*cos(theta1)./sin(theta4);
+theta5 = atan2(S5,C5);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Temos ate o momento:
 % [theta1(1), theta2(1), theta3(1), theta4(1), theta5(1)]
-% [theta1(2), theta2(2), theta3(1), theta4(2), theta5(2)]
-% [theta1(3), theta2(3), theta3(2), theta4(3), theta5(3)]
+% [theta1(2), theta2(2), theta3(2), theta4(2), theta5(2)]
+% [theta1(3), theta2(3), theta3(1), theta4(3), theta5(3)]
 % [theta1(4), theta2(4), theta3(2), theta4(4), theta5(4)]
-% [theta1(1), theta2(1), theta3(1), theta4(5), theta5(1)]
-% [theta1(2), theta2(2), theta3(1), theta4(6), theta5(2)]
-% [theta1(3), theta2(3), theta3(2), theta4(7), theta5(3)]
-% [theta1(4), theta2(4), theta3(2), theta4(8), theta5(4)]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Todas as solucoes ate o momento
-all_q = [];
-for i=1:length(theta4)
-    all_q = [all_q; double([theta1(i - floor((i-1)/4)*4), theta2(i - floor((i-1)/4)*4), theta3(ceil(i/2) - floor((i-1)/4)*2), theta4(i), theta5(i - floor((i-1)/4)*4)])];
-end
-
+all_q = [theta1; theta2; repmat(theta3,1,2); theta4; theta5].';
 %% PLOT SOLUCOES
-
 disp('CINEMATICA INVERSA')
 
-X = [1; 0; 0];
-Y = [0; 1; 0];
-Z = [0; 0; 1];
-
-for i=1:length(all_q)
+figure(2)
+for i=1:size(all_q,1)
     disp(strcat('q',int2str(i),' = '))
     disp(all_q(i,:))
     
@@ -314,7 +280,7 @@ for i=1:length(all_q)
     R04_val = subs(R04, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
     R05_val = subs(R05, {L2, L3, t1, t2, t3, t4, t5}, {L2_val, L3_val, all_q(i,1), all_q(i,2), all_q(i,3), all_q(i,4), all_q(i,5)});
 
-    figure
+    subplot(2,2,i)
     hold on
     view([45 25])
     grid
@@ -378,16 +344,16 @@ Y = [0; 1; 0];
 Z = [0; 0; 1];
 
 % {5} objetivo
-X5obj = R05_obj' * X;
-Y5obj = R05_obj' * Y;
-Z5obj = R05_obj' * Z;
+X5obj = R05_obj' * 1.2*X;
+Y5obj = R05_obj' * 1.2*Y;
+Z5obj = R05_obj' * 1.2*Z;
 
 % {5} obtido
-X5 = R05_val' * X;
-Y5 = R05_val' * Y;
-Z5 = R05_val' * Z;
+X5 = R05_val' * 1.4*X;
+Y5 = R05_val' * 1.4*Y;
+Z5 = R05_val' * 1.4*Z;
 
-figure
+figure(3)
 view([45 25])
 grid
 xlim([-2 2])

@@ -66,6 +66,8 @@ dth0 = 1;
 dthf = 1;
 tf = 3;
 
+% cc = cubcoef(th0, dth0, thf, dthf, tf);
+
 % Applying numeric values to determine coefficients
 a0 = a0(th0);
 a1 = a1(dth0);
@@ -99,8 +101,10 @@ plot(t, ddth_plot)
 
 %%
 % Quintic polynomials [Craig pag 210]
+clear all
+close all
 
-syms a0(th0) a1(dth0) a2(ddth0) a3(th0, thf, dth0, dthf, ddth0, ddthf, tf) a4(th0, thf, dth0, dthf, ddth0, ddthf, tf) a5(th0, thf, dth0, dthf, ddth0, ddthf, tf)
+syms th(t) a0(th0) a1(dth0) a2(ddth0) a3(th0, thf, dth0, dthf, ddth0, ddthf, tf) a4(th0, thf, dth0, dthf, ddth0, ddthf, tf) a5(th0, thf, dth0, dthf, ddth0, ddthf, tf)
 
 % Position equation coefficients
 a0(th0) = th0;
@@ -158,7 +162,7 @@ plot(t, ddth_plot)
 % Position equation coefficients
 ddth_tb(ddth_h, ddth_b, t_h, t_b) = (ddth_h - ddth_b)/(t_h - t_b);
 th_b(th_0, ddth_tb) = th_0 + 1/2*ddth_tb^2;
-t_b(t, ddth, th_f, th_0) = t/2 - sqrt(ddth^2*t^2 - 4*ddth^2(th_f - th_0))/2*ddth^2;
+t_b(t, ddth, th_f, th_0) = t/2 - sqrt(ddth^2*t^2 - 4*ddth^2*(th_f - th_0))/2*ddth^2;
 
 % Numeric values
 th0 = 15;
@@ -192,6 +196,46 @@ for i=t
     th_plot = [th_plot, th(i)];
     dth_plot = [dth_plot, dth(i)];
     ddth_plot = [ddth_plot, ddth(i)];
+end
+%%
+clear all
+close all
+% Cubic polynomials for a path with via points [Exercicio 1 da lista de geracao de trejetorias do Fabio]
+
+th0 = 15;
+th1 = 70;
+th2 = 13;
+th3 = 35;
+thf = 75;
+T = 3;
+
+% Arrange trajectory points in a vector
+traj_points = [th0, th1, th2, th3, thf];
+
+% Vectors of cubic coefficients (one segment per line)
+cctot = trajectoryplanning(traj_points, T);
+
+% Update rate and evaluation time vector
+rate = 0.1;
+t_eval = rate:rate:T;
+
+t = [0];
+th_plot = [th0];
+dth_plot = [0];
+ddth_plot = [0];
+
+for k = 1:size(cctot, 1)
+    a0 = cctot(k,1);
+    a1 = cctot(k,2);
+    a2 = cctot(k,3);
+    a3 = cctot(k,4);
+    
+    tk = (k-1)*T+rate:rate:k*T;
+    t = [t, tk];
+    
+    th_plot = [th_plot, a0 + a1*t_eval + a2*t_eval.^2 + a3*t_eval.^3];
+    dth_plot = [dth_plot, a1 + 2*a2*t_eval + 3*a3*t_eval.^2];
+    ddth_plot = [ddth_plot, 2*a2 + 6*a3*t_eval];
 end
 
 figure (1)
