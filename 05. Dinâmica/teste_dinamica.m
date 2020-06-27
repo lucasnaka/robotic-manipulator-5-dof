@@ -2,7 +2,7 @@ clear all
 close all
 
 % Especificacoes para simulacao
-theta_initial = [0 -pi/4 -pi/2 0 0];
+theta_initial = [0 0 0 0 0];
 torque_step_time = [0 0 0 0 0];
 torque_initial = [0 0 0 0 0];
 torque_final = [0 0 0 0 0];
