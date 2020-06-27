@@ -81,7 +81,8 @@ g1 = L(2)*cos(theta2) - L(3)*sin(theta2 + repmat(theta3,1,2));
 theta1 = atan2(py./g1, px./g1);
 
 % Calculo de theta4
-S4 = -cos(theta1) ./ cos(theta2 + repmat(theta3,1,2));
+% S4 = -cos(theta1) ./ cos(theta2 + repmat(theta3,1,2));
+S4 = -cos(theta1) .* cos(theta2 + repmat(theta3,1,2));
 C4 = -sin(theta1);
 theta4 = atan2(S4,C4);
 
