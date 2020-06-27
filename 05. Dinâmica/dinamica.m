@@ -1,12 +1,17 @@
-clear
+clear all
+close all
 clc
 
-% i  alpha(i-1)    a(i-1)     d(i)     theta(i)
-% 1    0            0           0       theta1
-% 2   90°           0           0       theta2
-% 3    0           L2           0       theta3
-% 4   270°          0       L3+L4       theta4
-% 5   90°           0           0       theta5
+%=========================================================================%
+%                      Parametros do manipulador                          %
+%=========================================================================%
+%             i | alpha(i-1) | a(i-1) | d(i) | theta(i)                   %
+%             1 |      0     |   0    |   0  | theta1                     %
+%             2 |    90°     |   0    |   0  | theta2                     %
+%             3 |      0     |  L2    |   0  | theta3 - pi/2              %
+%             4 |   270°     |   0    |  L3  | theta4                     %
+%             5 |    90°     |   0    |   0  | theta5                     %
+%=========================================================================%
 
 % t1 = theta1; t1p = theta1 ponto;
 syms th1(t) th2(t) th3(t) th4(t) th5(t) L1 L2 L3 L4 T(alpha, a, d, theta) ...
@@ -19,11 +24,9 @@ T(alpha, a, d, theta) = [cos(theta),            -sin(theta),           0,       
                          0,                     0,                      0,          1];
 
 %% Aplicacao no robo de cinco juntas
-
 L1 = 0.226; % [m]
 L2 = 0.250; % [m]
-L3 = 0.160; % [m]
-L4 = 0.072; % [m]
+L3 = 0.160 + 0.072; % [m]
 L5 = 0.075; % [m]
 
 alpha1 = pi/2;
@@ -40,7 +43,7 @@ d3 = 0;
 
 alpha4 = pi/2;
 a4 = 0;
-d4 = L3 + L4;
+d4 = L3;
 % d4 = 0;
 
 d5 = 0;
@@ -198,33 +201,18 @@ delk_deldth2 = subs(diff(subs(k, dth2(t), x), x), x, dth2(t));
 delk_deldth3 = subs(diff(subs(k, dth3(t), x), x), x, dth3(t));
 delk_deldth4 = subs(diff(subs(k, dth4(t), x), x), x, dth4(t));
 delk_deldth5 = subs(diff(subs(k, dth5(t), x), x), x, dth5(t));
-delk_deldth = [delk_deldth1; % Nao to usando essa variavel
-               delk_deldth2; 
-               delk_deldth3; 
-               delk_deldth4; 
-               delk_deldth5];
 
 delk_delth1 = subs(diff(subs(k, th1(t), x), x), x, th1(t));
 delk_delth2 = subs(diff(subs(k, th2(t), x), x), x, th2(t));
 delk_delth3 = subs(diff(subs(k, th3(t), x), x), x, th3(t));
 delk_delth4 = subs(diff(subs(k, th4(t), x), x), x, th4(t));
 delk_delth5 = subs(diff(subs(k, th5(t), x), x), x, th5(t));
-delk_delth = [delk_delth1; % Nao to usando essa variavel
-              delk_delth2; 
-              delk_delth3; 
-              delk_delth4; 
-              delk_delth5];
 
 delu_delth1 = subs(diff(subs(u, th1(t), x), x), x, th1(t));
 delu_delth2 = subs(diff(subs(u, th2(t), x), x), x, th2(t));
 delu_delth3 = subs(diff(subs(u, th3(t), x), x), x, th3(t));
 delu_delth4 = subs(diff(subs(u, th4(t), x), x), x, th4(t));
 delu_delth5 = subs(diff(subs(u, th5(t), x), x), x, th5(t));
-delu_delth = [delu_delth1; % Nao to usando essa variavel
-              delu_delth2; 
-              delu_delth3; 
-              delu_delth4; 
-              delu_delth5];
 
 tau1 = diff(delk_deldth1,t) - delk_delth1 + delu_delth1;
 tau2 = diff(delk_deldth2,t) - delk_delth2 + delu_delth2;
@@ -250,11 +238,6 @@ tau5_subs = simplify(combine(subs(tau5, [diff(th1(t),t) diff(th2(t),t) diff(th3(
             [dth1 dth2 dth3 dth4 dth5 ddth1 ddth2 ddth3 ddth4 ddth5])));
 
 %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                                         %
-%                   DAQUI PARA BAIXO SÓ TEM GAMBIARRA                     %
-%                                                                         %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
 % Calculo da matriz M
 tau1_subs_ddth1 = collect_multipied_by_term(tau1_subs, ddth1);
@@ -335,26 +318,6 @@ V = [tau1_subs_v;
      tau5_subs_v];
 
 V = simplify(combine(V));
-% % Exportar para visualizar a equacao completa em um editor de texto (sugestao: sublime text)
-% fid = fopen(append('dinamica_tau1.txt'), 'wt');
-% fprintf(fid, '%s\n', char(tau1_subs));
-% fclose(fid);
-% 
-% fid = fopen(append('dinamica_tau2.txt'), 'wt');
-% fprintf(fid, '%s\n', char(tau2_subs));
-% fclose(fid);
-% 
-% fid = fopen(append('dinamica_tau3.txt'), 'wt');
-% fprintf(fid, '%s\n', char(tau3_subs));
-% fclose(fid);
-% 
-% fid = fopen(append('dinamica_tau4.txt'), 'wt');
-% fprintf(fid, '%s\n', char(tau4_subs));
-% fclose(fid);
-% 
-% fid = fopen(append('dinamica_tau5.txt'), 'wt');
-% fprintf(fid, '%s\n', char(tau5_subs));
-% fclose(fid);
 
 function term = collect_multipied_by_term(tau_subs, term)
     term = children(collect(tau_subs, term));
@@ -364,23 +327,3 @@ function term = collect_multipied_by_term(tau_subs, term)
         term = 0;
     end
 end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Daqui para baixo eu estava tentando fazer tudo como se fosse em 1 vetor
-% so, sem precisar separar junta por junta. O problema eh que a solucao
-% abaixo resulta em um 'tau_subs' de tipo '1x1 symfun' e nao eh possivel
-% depois separa-la por junta (ex: tau_subs(1), tau_subs(2), tau_subs(3)...)
-
-% dk_dthetap = functionalDerivative(k,[t1p(t) t2p(t) t3p(t) t4p(t) t5p(t)]);
-% dk_dtheta = functionalDerivative(k,[t1(t) t2(t) t3(t) t4(t) t5(t)]);
-% du_dtheta = functionalDerivative(u,[t1(t) t2(t) t3(t) t4(t) t5(t)]);
-
-% tau = diff(dk_dthetap,t) + dk_dtheta + du_dtheta;
-%%
-
-% M = collect(tau, [diff(t1p(t), t) diff(t2(t), t) diff(t3(t), t)]);
-% tau = subs(tau, [t1p(t) t2p(t) t3p(t) t4p(t) t5p(t)], [diff(t1(t), t) diff(t2(t), t) diff(t3(t), t) diff(t4(t), t) diff(t5(t), t)]);
-% syms th1 th2 th3 th4 th5 dth1 dth2 dth3 dth4 dth5 ddth1 ddth2 ddth3 ddth4 ddth5
-% tau_subs = subs(tau, [diff(t1(t),t) diff(t2(t),t) diff(t3(t),t) diff(t4(t),t) diff(t5(t),t) ...
-%             diff(t1p(t),t) diff(t2p(t),t) diff(t3p(t),t) diff(t4p(t),t) diff(t5p(t),t)], ...
-%             [dth1 dth2 dth3 dth4 dth5 ddth1 ddth2 ddth3 ddth4 ddth5])
