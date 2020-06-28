@@ -41,22 +41,38 @@ SP_theta = [0 0 0 0 0];
 
 % Arrange trajectory points in a vector
 traj_th1 = [0, 5, 10];
-T = 3;
+traj_th2 = [0, 0, 0];
+traj_th3 = [0, 0, 0];
+traj_th4 = [0, 0, 0];
+traj_th5 = [0, 0, 0];
+T = 30;
 
 % Update rate and evaluation time vector
-rate = 1;
+rate = 1/60;
 
 % Call high level function
 [t1, th1, dth1, ddth1] = geraTrajetoria(traj_th1, T, rate);
+[t2, th2, dth2, ddth2] = geraTrajetoria(traj_th2, T, rate);
+[t3, th3, dth3, ddth3] = geraTrajetoria(traj_th3, T, rate);
+[t4, th4, dth4, ddth4] = geraTrajetoria(traj_th4, T, rate);
+[t5, th5, dth5, ddth5] = geraTrajetoria(traj_th5, T, rate);
 
-thpath = [0 0 0 0 0];
-thdotpath = [0 0 0 0 0];
-thdotdotpath = [0 0 0 0 0];
+% thpath = [t1' th1' th2' th3' th4' th5'];
+% thdotpath = [t1' dth1' dth2' dth3' dth4' dth5'];
+% thdotdotpath = [t1' ddth1' ddth2' ddth3' ddth4' ddth5'];
 
-simulation_time = 30;
+% thpath = [th1' th2' th3' th4' th5'];
+% thdotpath = [dth1' dth2' dth3' dth4' dth5'];
+% thdotdotpath = [ddth1' ddth2' ddth3' ddth4' ddth5'];
+
+thpath = [th1; th2; th3; th4; th5];
+thdotpath = [dth1; dth2; dth3; dth4; dth5];
+thdotdotpath = [ddth1; ddth2; ddth3; ddth4; ddth5];
+
+simulation_time = 60;
 
 % sim('ControlePD_ind')
-sim('ControleFF', simulation_time)
+sim('ControleFF_trajectory', simulation_time)
 %%
 % Plots
 close all

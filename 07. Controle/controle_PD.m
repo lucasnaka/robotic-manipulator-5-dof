@@ -28,8 +28,8 @@ Ts = 1/100;
 SP_theta = [0;0;0;0;0];
 
 % Especificacoes do degrau
-ganho_degrau = [5;5;5;5;5];
-tempo_degrau = [10;20;30;40;50];
+ganho_degrau = [0;5;0;0;0];
+tempo_degrau = [0;20;0;0;0];
 
 simulation_time = 60;
 
