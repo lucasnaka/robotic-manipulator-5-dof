@@ -12,4 +12,3 @@ function [ cc ] = cubcoef( th0, thdot0, thf, thdotf, T )
     cc = [a0, a1, a2, a3];
     
 end
-

@@ -22,4 +22,3 @@ function [ cctot ] = trajectoryplanning( traj_points, T )
 
      cctot = [cctot; cubcoef(traj_points(k), traj_dots(k), traj_points(k+1), traj_dots(k+1), T)];
 end
-
