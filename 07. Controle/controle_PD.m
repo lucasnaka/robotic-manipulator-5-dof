@@ -12,8 +12,6 @@ Beff = 50;
 T = Jeff/Beff;
 r = 1./[231.22*4 139.138 139.138 231.22 231.22]; % Relacoes de engrenagem
 
-%%
-
 % Calculo parâmetros de controle
 xi = 1;
 % ts = 0.9;
@@ -26,24 +24,17 @@ N = 3;
 Td = Kd/Kp;
 Ts = 1/100;
 
-% Tf = tf([(K*Kp/Jeff)^2],[1 (Beff+K*Kd)/Jeff K*Kp/Jeff]);
-% figure (1)
-% bode(Tf)
-% figure (2)
-% nichols(Tf)
-% ngrid
-
 % Especificacoes de set-point
 SP_theta = [0;0;0;0;0];
 
 % Especificacoes do degrau
-ganho_degrau = [0;0;0;0;0];
-tempo_degrau = [0;0;0;0;0];
+ganho_degrau = [5;5;5;5;5];
+tempo_degrau = [10;20;30;40;50];
 
-simulation_time = 100;
+simulation_time = 60;
 
 % sim('ControlePD_ind')
-sim('ControlePD_5juntas_G', simulation_time)
+sim('ControlePD_5juntas', simulation_time)
 %%
 % Plots
 close all
@@ -84,14 +75,14 @@ legend('$\dot{\theta}_1$', '$\dot{\theta}_2$', '$\dot{\theta}_3$', ...
        '$\dot{\theta}_4$', '$\dot{\theta}_5$', 'Interpreter','latex');
 
 figure;
-subplot(2,1,1)
+% subplot(2,1,1)
 plot(tout,erro1,'b',tout,erro2,'r',tout,erro3,'m',tout,erro4,'g',tout,erro5,'c');
 title('Erro')
 grid('on')
 xlabel('Tempo (s)'); ylabel('Ângulo (º)')
 legend('$e_1$', '$e_2$', '$e_3$', '$e_4$', '$e_5$','Interpreter','latex');
-
-subplot(2,1,2)
+figure;
+% subplot(2,1,2)
 plot(tout,Vcontrole1,'b',tout,Vcontrole2,'r',tout,Vcontrole3,'m', ...
      tout,Vcontrole4,'g',tout,Vcontrole5,'c');
 title('Tensão de controle')

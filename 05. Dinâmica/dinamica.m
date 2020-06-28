@@ -24,10 +24,10 @@ T(alpha, a, d, theta) = [cos(theta),            -sin(theta),           0,       
                          0,                     0,                      0,          1];
 
 %% Aplicacao no robo de cinco juntas
-L1 = 0.226; % [m]
-L2 = 0.250; % [m]
-L3 = 0.160 + 0.072; % [m]
-L5 = 0.075; % [m]
+% L1 = 0.226; % [m]
+% L2 = 0.250; % [m]
+% L3 = 0.160 + 0.072; % [m]
+% L5 = 0.075; % [m]
 
 alpha1 = pi/2;
 a1 = 0;
@@ -44,7 +44,6 @@ d3 = 0;
 alpha4 = pi/2;
 a4 = 0;
 d4 = L3;
-% d4 = 0;
 
 d5 = 0;
 

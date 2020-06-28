@@ -20,12 +20,14 @@ plot_manipulador_from_forward_kinematic(R01, R02, R03, R05, L)
 %=========================================================================%
 % Matriz definida pelo operador. Nos definimos a seguinte matriz:
 
-gamma = pi/4;
-beta = 0;
+syms gamma beta
+
+% gamma = pi/4;
+% beta = 0;
 
 Rbeta = [0           1            0;
          sin(beta)   0   -cos(beta);
-         -cos(beta)  0  -sin(beta)];
+         -cos(beta)  0   -sin(beta)];
 
 Rgamma = [sin(gamma)  cos(gamma) 0;
           0           0          -1;
@@ -81,17 +83,19 @@ g1 = L(2)*cos(theta2) - L(3)*sin(theta2 + repmat(theta3,1,2));
 theta1 = atan2(py./g1, px./g1);
 
 % Calculo de theta4
-S4 = -cos(theta1) ./ cos(theta2 + repmat(theta3,1,2));
-C4 = -sin(theta1);
-theta4 = atan2(S4,C4);
+% S4 = -cos(theta1) ./ cos(theta2 + repmat(theta3,1,2));
+% C4 = -sin(theta1);
+% theta4 = atan2(S4,C4);
+theta4 = [atan2(cos(theta1)*sqrt(ny^2 + oy^2), sin(theta1)), ...
+         -atan2(cos(theta1)*sqrt(ny^2 + oy^2), sin(theta1))]
 
-% Calculo de theta5
-S5 = oy*cos(theta1)./-sin(theta4);
-C5 = ny*cos(theta1)./sin(theta4);
-theta5 = atan2(S5,C5);
-
-% Todas as solucoes ate o momento
-all_q = [theta1; theta2; repmat(theta3,1,2); theta4; theta5].';
+% % Calculo de theta5
+% S5 = oy*cos(theta1)./-sin(theta4);
+% C5 = ny*cos(theta1)./sin(theta4);
+% theta5 = atan2(S5,C5);
+% 
+% % Todas as solucoes ate o momento
+% all_q = [theta1; theta2; repmat(theta3,1,2); theta4; theta5].';
 %% PLOT SOLUCOES
 disp('CINEMATICA INVERSA')
 
