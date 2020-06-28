@@ -84,18 +84,18 @@ theta1 = atan2(py./g1, px./g1);
 
 % Calculo de theta4
 % S4 = -cos(theta1) ./ cos(theta2 + repmat(theta3,1,2));
-% C4 = -sin(theta1);
-% theta4 = atan2(S4,C4);
-theta4 = [atan2(cos(theta1)*sqrt(ny^2 + oy^2), sin(theta1)), ...
-         -atan2(cos(theta1)*sqrt(ny^2 + oy^2), sin(theta1))]
 
-% % Calculo de theta5
-% S5 = oy*cos(theta1)./-sin(theta4);
-% C5 = ny*cos(theta1)./sin(theta4);
-% theta5 = atan2(S5,C5);
-% 
-% % Todas as solucoes ate o momento
-% all_q = [theta1; theta2; repmat(theta3,1,2); theta4; theta5].';
+S4 = -cos(theta1) .* cos(theta2 + repmat(theta3,1,2));
+C4 = -sin(theta1);
+theta4 = atan2(S4,C4);
+
+% Calculo de theta5
+S5 = oy*cos(theta1)./-sin(theta4);
+C5 = ny*cos(theta1)./sin(theta4);
+theta5 = atan2(S5,C5);
+
+% Todas as solucoes ate o momento
+all_q = [theta1; theta2; repmat(theta3,1,2); theta4; theta5].';
 %% PLOT SOLUCOES
 disp('CINEMATICA INVERSA')
 
