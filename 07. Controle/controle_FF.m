@@ -4,6 +4,7 @@
 %% Script 
 clear all
 close all
+clc
 
 % Parâmetros do sistema
 K = (90/12)*(2*pi/60); % Motor de 90 rpm para 12 V
@@ -40,63 +41,90 @@ SP_theta = [0 0 0 0 0];
 % Usando a funcao de alto nivel "geraTrajetoria"
 
 % Arrange trajectory points in a vector
-traj_th1 = [0, 5, 10];
-traj_th2 = [0, 0, 0];
-traj_th3 = [0, 0, 0];
-traj_th4 = [0, 0, 0];
-traj_th5 = [0, 0, 0];
+traj_th1 = [0, 5, 0, 0, 0, 0, 0];
+traj_th2 = [0, 0, 5, 0, 0, 0, 0];
+traj_th3 = [0, 0, 0, 5, 0, 0, 0];
+traj_th4 = [0, 0, 0, 0, 5, 0, 0];
+traj_th5 = [0, 0, 0, 0, 0, 5, 0];
 T = 30;
 
 % Update rate and evaluation time vector
-rate = 1/60;
+rate = 1/180;
 
 % Call high level function
-[t1, th1, dth1, ddth1] = geraTrajetoria(traj_th1, T, rate);
-[t2, th2, dth2, ddth2] = geraTrajetoria(traj_th2, T, rate);
-[t3, th3, dth3, ddth3] = geraTrajetoria(traj_th3, T, rate);
-[t4, th4, dth4, ddth4] = geraTrajetoria(traj_th4, T, rate);
-[t5, th5, dth5, ddth5] = geraTrajetoria(traj_th5, T, rate);
+[t1, th1_path, dth1_path, ddth1_path] = geraTrajetoria(traj_th1, T, rate);
+[t2, th2_path, dth2_path, ddth2_path] = geraTrajetoria(traj_th2, T, rate);
+[t3, th3_path, dth3_path, ddth3_path] = geraTrajetoria(traj_th3, T, rate);
+[t4, th4_path, dth4_path, ddth4_path] = geraTrajetoria(traj_th4, T, rate);
+[t5, th5_path, dth5_path, ddth5_path] = geraTrajetoria(traj_th5, T, rate);
 
-% thpath = [t1' th1' th2' th3' th4' th5'];
-% thdotpath = [t1' dth1' dth2' dth3' dth4' dth5'];
-% thdotdotpath = [t1' ddth1' ddth2' ddth3' ddth4' ddth5'];
+thpath = [t1' th1_path' th2_path' th3_path' th4_path' th5_path'];
+thdotpath = [t1' dth1_path' dth2_path' dth3_path' dth4_path' dth5_path'];
+thdotdotpath = [t1' ddth1_path' ddth2_path' ddth3_path' ddth4_path' ddth5_path'];
 
-% thpath = [th1' th2' th3' th4' th5'];
-% thdotpath = [dth1' dth2' dth3' dth4' dth5'];
-% thdotdotpath = [ddth1' ddth2' ddth3' ddth4' ddth5'];
+simulation_time = 180;
 
-thpath = [th1; th2; th3; th4; th5];
-thdotpath = [dth1; dth2; dth3; dth4; dth5];
-thdotdotpath = [ddth1; ddth2; ddth3; ddth4; ddth5];
+sim('ControleFF_trajetoria', simulation_time)
 
-simulation_time = 60;
+%%
+% Plots
+close all
 
-% sim('ControlePD_ind')
-sim('ControleFF_trajectory', simulation_time)
+figure;
+subplot(5,1,1)
+plot_angular_position_ff(th1r, th1_path, tout, 1, 'b')
+
+subplot(5,1,2)
+plot_angular_position_ff(th2r, th2_path, tout, 2, 'r')
+
+subplot(5,1,3)
+plot_angular_position_ff(th3r, th3_path, tout, 3, 'm')
+
+subplot(5,1,4)
+plot_angular_position_ff(th4r, th4_path, tout, 4, 'g')
+
+subplot(5,1,5)
+plot_angular_position_ff(th5r, th5_path, tout, 5, 'c')
+
+% figure;
+% plot(tout,th1_path,'b',tout,thetar(1),'--b',tout,th2_path,'r',tout,thetar(2),'--r', ...
+%      tout,th3_path,'m',tout,thetar(3),'--m',tout,th4_path,'g',tout,thetar(4),'--g', ...
+%      tout,th5_path,'c',tout,thetar(5),'--c');
+% title('Posição angular das juntas');
+% grid('on')
+% xlabel('Tempo (s)'); ylabel('Posição angular (º)')
+% legend('$\theta_1^d$','$\theta_{1r}$','$\theta_2^d$','$\theta_{2r}$', ...
+%        '$\theta_3^d$','$\theta_{3r}$','$\theta_4^d$','$\theta_{4r}$', ...
+%        '$\theta_5^d$','$\theta_{5r}$','Interpreter','latex');
+
+% figure;
+% plot(t1,dth1_path,'b',t1,dth2_path,'r',t1,dth3_path,'m',t1,dth4_path,'g',t1,dth5_path,'c');
+% title('Velocidade angular das juntas');
+% grid('on')
+% xlabel('Tempo (s)'); ylabel('Posição angular (º)')
+% legend('$\dot{\theta}_1$','$\dot{\theta}_2$','$\dot{\theta}_3$','$\dot{\theta}_4$','$\dot{\theta}_5$', ...
+%        'Interpreter','latex');
+%    
+% figure;
+% plot(t1,ddth1_path,'b',t1,ddth2_path,'r',t1,ddth3_path,'m',t1,ddth4_path,'g',t1,ddth5_path,'c');
+% title('Aceleração angular das juntas');
+% grid('on')
+% xlabel('Tempo (s)'); ylabel('Posição angular (º)')
+% legend('$\ddot{\theta}_1$','$\ddot{\theta}_2$','$\ddot{\theta}_3$','$\ddot{\theta}_4$','$\ddot{\theta}_5$', ...
+%        'Interpreter','latex');
+
+
+
 %%
 % Plots
 close all
 
 % Plot posicoes angulares
-figure;
-subplot(5,1,1)
-plot_angular_position(th1, thd1, tout, 1, 'b')
 
-subplot(5,1,2)
-plot_angular_position(th2, thd2, tout, 2, 'r')
-
-subplot(5,1,3)
-plot_angular_position(th3, thd3, tout, 3, 'm')
-
-subplot(5,1,4)
-plot_angular_position(th4, thd4, tout, 4, 'g')
-
-subplot(5,1,5)
-plot_angular_position(th5, thd5, tout, 5, 'c')
 
 figure;
-plot(tout,th1,'b',tout,thd1,'--b',tout,th2,'r',tout,thd2,'--r',tout,th3,'m', ...
-    tout,thd3,'--m',tout,th4,'g',tout,thd4,'--g',tout,th5,'c',tout,thd5,'--c');
+plot(tout,th1_path,'b',tout,thd1,'--b',tout,th2_path,'r',tout,thd2,'--r',tout,th3_path,'m', ...
+    tout,thd3,'--m',tout,th4_path,'g',tout,thd4,'--g',tout,th5_path,'c',tout,thd5,'--c');
 title('Posição angular das juntas');
 grid('on')
 xlabel('Tempo (s)'); ylabel('Posição angular (º)')
@@ -105,12 +133,12 @@ legend('$\theta_1$','$\theta^d_1$','$\theta_2$','$\theta^d_2$',...
     '$\theta_5$','$\theta^d_5$','Interpreter','latex');
 
 figure;
-plot(tout,dth1,'b',tout,dth2,'r',tout,dth3,'m',tout,dth4,'g',tout,dth5,'c');
+plot(tout,dth1_path,'b',tout,dth2_path,'r',tout,dth3_path,'m',tout,dth4_path,'g',tout,dth5_path,'c');
 title('Velocidade angular das juntas');
 grid('on')
 xlabel('Tempo (s)'); ylabel('Velocidade angular (º/s)')
-legend('$\dot{\theta}_1$', '$\dot{\theta}_2$', '$\dot{\theta}_3$', ...
-       '$\dot{\theta}_4$', '$\dot{\theta}_5$', 'Interpreter','latex');
+legend('$\dot{\theta}_{1m}$', '$\dot{\theta}_{2m}$', '$\dot{\theta}_{3m}$', ...
+       '$\dot{\theta}_{4m}$', '$\dot{\theta}_{5m}$', 'Interpreter','latex');
 
 figure;
 subplot(2,1,1)
@@ -128,84 +156,14 @@ grid('on')
 xlabel('Tempo (s)');  ylabel('Tensão (V)')
 legend('V_1', 'V_2', 'V_3', 'V_4', 'V_5');
 
-%% Item b
-
-% Valores trajetoria exercicio 3
-[thpath,thdotpath,thdotdotpath] = ex3_function(1/100);
-
-% sim('ControlePD_ind_itemb');
-sim('ControlePD_ind_sat_itemb')
-
-% Adjusting format
-p = length(th1);
-thd1 = reshape(thd1,[1,p]);
-thd2 = reshape(thd2,[1,p]);
-thd3 = reshape(thd3,[1,p]);
-
-% Plots
-% close all
-
-figure;
-subplot(3,1,1)
-plot(tout,th1,'b',tout,thd1,'--b');
-title('Posição angular da junta 1');
-grid('on')
-xlabel('Tempo (s)'); ylabel('\theta_1 (º)')
-legend('$\theta_1$', '$\theta^d_1$','Interpreter','latex');
-
-subplot(3,1,2)
-plot(tout,th2,'r',tout,thd2,'--r');
-title('Posição angular da junta 2');
-grid('on')
-xlabel('Tempo (s)'); ylabel('\theta_2 (º)')
-legend('$\theta_2$', '$\theta^d_2$','Interpreter','latex');
-
-subplot(3,1,3)
-plot(tout,th3,'m',tout,thd3,'--m');
-title('Posição angular da junta 3');
-grid('on')
-xlabel('Tempo (s)'); ylabel('\theta_3 (º)')
-legend('$\theta_3$', '$\theta^d_3$','Interpreter','latex');
-
-
-figure;
-plot(tout,th1,'b',tout,thd1,'--b',tout,th2,'r',tout,thd2,'--r',tout,th3,'m',tout,thd3,'--m');
-title('Posição angular das juntas');
-grid('on')
-xlabel('Tempo (s)'); ylabel('Posição angular (º)')
-legend('$\theta_1$','$\theta^d_1$','$\theta_2$','$\theta^d_2$',...
-    '$\theta_3$','$\theta^d_3$','Interpreter','latex');
-
-figure;
-plot(tout,dth1,'b',tout,dth2,'r',tout,dth3,'m');
-title('Velocidade angular das juntas');
-grid('on')
-xlabel('Tempo (s)'); ylabel('Velocidade angular (º/s)')
-legend('$\dot{\theta}_1$', '$\dot{\theta}_2$', '$\dot{\theta}_3$','Interpreter','latex');
-
-figure;
-subplot(2,1,1)
-plot(tout,erro1,'b',tout,erro2,'r',tout,erro3,'m');
-title('Erro')
-grid('on')
-xlabel('Tempo (s)'); ylabel('Ângulo (º)')
-legend('$e_1$', '$e_2$', '$e_3$','Interpreter','latex');
-
-subplot(2,1,2)
-plot(tout,Vcontrole1,'b',tout,Vcontrole2,'r',tout,Vcontrole3,'m');
-title('Tensão de controle (V)')
-grid('on')
-xlabel('Tempo (s)');
-legend('V_1', 'V_2', 'V_3');
-
 %% Funcoes
 
-function plot_angular_position(th, thd, tout, joint_number, color)
-    plot(tout,th,color,tout,thd,strcat('--',color));
+function plot_angular_position_ff(thr, thd, tout, joint_number, color)
+    plot(tout,thr,color,tout,thd,strcat('--',color));
     title(strcat('Posição angular da junta',{' '},int2str(joint_number)))
     grid('on')
     xlabel('Tempo (s)')
     ylabel(strcat('\theta_',int2str(joint_number),' (º)'))
-    legend(strcat('$\theta_',int2str(joint_number),'$'), strcat( ...
+    legend(strcat('$\theta_{',int2str(joint_number),'r}$'), strcat( ...
          '$\theta^d_', int2str(joint_number),'$'), 'Interpreter', 'latex');
 end
