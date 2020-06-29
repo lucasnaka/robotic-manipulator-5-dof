@@ -13,13 +13,8 @@ Beff = 50;
 T = Jeff/Beff;
 r = 1./[231.22*4 139.138 139.138 231.22 231.22]; % Relacoes de engrenagem
 
-% Valores para o nosso manipulador robotico
-% Jeff_teste = J_mk + r_k^2*m_kk_medio;
-% Beff = B_mk + K_bk*K_mk/R_k;
-
 % Calculo parâmetros de controle
 xi = 1;
-% ts = 0.9;
 wn = 15; % chute // fazer o bode para tirar o wn
 Kd = (2*xi*wn*Jeff - Beff)/K;
 Kp = (wn^2*Jeff)/K;
@@ -29,27 +24,27 @@ N = 3;
 Td = Kd/Kp;
 Ts = 1/100;
 
-% Tf = tf([(K*Kp/Jeff)^2],[1 (Beff+K*Kd)/Jeff K*Kp/Jeff]);
-% figure (1)
-% bode(Tf)
-% figure (2)
-% nichols(Tf)
-% ngrid
-
 SP_theta = [0 0 0 0 0];
 
 % Usando a funcao de alto nivel "geraTrajetoria"
 
 % Arrange trajectory points in a vector
-traj_th1 = [0, 5, 0, 0, 0, 0, 0];
-traj_th2 = [0, 0, 5, 0, 0, 0, 0];
-traj_th3 = [0, 0, 0, 5, 0, 0, 0];
-traj_th4 = [0, 0, 0, 0, 5, 0, 0];
-traj_th5 = [0, 0, 0, 0, 0, 5, 0];
+% traj_th1 = [0, 5, 0, 0, 0, 0, 0];
+% traj_th2 = [0, 0, 5, 0, 0, 0, 0];
+% traj_th3 = [0, 0, 0, 5, 0, 0, 0];
+% traj_th4 = [0, 0, 0, 0, 5, 0, 0];
+% traj_th5 = [0, 0, 0, 0, 0, 5, 0];
+traj_th1 = [0, 5, 10];
+traj_th2 = [0, 0, 0];
+traj_th3 = [0, 0, 0];
+traj_th4 = [0, 0, 0];
+traj_th5 = [0, 0, 0];
+
 T = 30;
 
 % Update rate and evaluation time vector
-rate = 1/180;
+simulation_time = ((length(traj_th1)-1)*T);
+rate = 1/simulation_time;
 
 % Call high level function
 [t1, th1_path, dth1_path, ddth1_path] = geraTrajetoria(traj_th1, T, rate);
@@ -58,11 +53,9 @@ rate = 1/180;
 [t4, th4_path, dth4_path, ddth4_path] = geraTrajetoria(traj_th4, T, rate);
 [t5, th5_path, dth5_path, ddth5_path] = geraTrajetoria(traj_th5, T, rate);
 
-thpath = [t1' th1_path' th2_path' th3_path' th4_path' th5_path'];
-thdotpath = [t1' dth1_path' dth2_path' dth3_path' dth4_path' dth5_path'];
-thdotdotpath = [t1' ddth1_path' ddth2_path' ddth3_path' ddth4_path' ddth5_path'];
-
-simulation_time = 180;
+th_path = [t1' th1_path' th2_path' th3_path' th4_path' th5_path'];
+dth_path = [t1' dth1_path' dth2_path' dth3_path' dth4_path' dth5_path'];
+ddth_path = [t1' ddth1_path' ddth2_path' ddth3_path' ddth4_path' ddth5_path'];
 
 sim('ControleFF_trajetoria', simulation_time)
 
@@ -85,6 +78,22 @@ plot_angular_position_ff(th4r, th4_path, tout, 4, 'g')
 
 subplot(5,1,5)
 plot_angular_position_ff(th5r, th5_path, tout, 5, 'c')
+
+figure;
+subplot(2,1,1)
+plot(tout,erro1,'b',tout,erro2,'r',tout,erro3,'m',tout,erro4,'g',tout,erro5,'c');
+title('Erro')
+grid('on')
+xlabel('Tempo (s)'); ylabel('Ângulo (º)')
+legend('$e_1$', '$e_2$', '$e_3$', '$e_4$', '$e_5$','Interpreter','latex');
+
+subplot(2,1,2)
+plot(tout,Vcontrole1,'b',tout,Vcontrole2,'r',tout,Vcontrole3,'m', ...
+     tout,Vcontrole4,'g',tout,Vcontrole5,'c');
+title('Tensão de controle')
+grid('on')
+xlabel('Tempo (s)');  ylabel('Tensão (V)')
+legend('V_1', 'V_2', 'V_3', 'V_4', 'V_5');
 
 % figure;
 % plot(tout,th1_path,'b',tout,thetar(1),'--b',tout,th2_path,'r',tout,thetar(2),'--r', ...
@@ -139,22 +148,6 @@ grid('on')
 xlabel('Tempo (s)'); ylabel('Velocidade angular (º/s)')
 legend('$\dot{\theta}_{1m}$', '$\dot{\theta}_{2m}$', '$\dot{\theta}_{3m}$', ...
        '$\dot{\theta}_{4m}$', '$\dot{\theta}_{5m}$', 'Interpreter','latex');
-
-figure;
-subplot(2,1,1)
-plot(tout,erro1,'b',tout,erro2,'r',tout,erro3,'m',tout,erro4,'g',tout,erro5,'c');
-title('Erro')
-grid('on')
-xlabel('Tempo (s)'); ylabel('Ângulo (º)')
-legend('$e_1$', '$e_2$', '$e_3$', '$e_4$', '$e_5$','Interpreter','latex');
-
-subplot(2,1,2)
-plot(tout,Vcontrole1,'b',tout,Vcontrole2,'r',tout,Vcontrole3,'m', ...
-     tout,Vcontrole4,'g',tout,Vcontrole5,'c');
-title('Tensão de controle')
-grid('on')
-xlabel('Tempo (s)');  ylabel('Tensão (V)')
-legend('V_1', 'V_2', 'V_3', 'V_4', 'V_5');
 
 %% Funcoes
 
