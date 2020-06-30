@@ -43,6 +43,19 @@ function plot_manipulador_from_forward_kinematic(R01, R02, R03, R05, L)
     arm4_y = [L4_1(2) L4_2(2)];
     arm4_z = [L4_1(3) L4_2(3)];
     plot3(arm4_x, arm4_y, arm4_z, 'LineWidth',3)
+    
+    % Plot do sistema de coordenadas {5}
+    X5 = [1; 0; 0];
+    Y5 = [0; 1; 0];
+    Z5 = [0; 0; 1];
+
+    X = R05 * 0.1*X5;
+    Y = R05 * 0.1*Y5;
+    Z = R05 * 0.1*Z5;
+    
+    quiver3(L4_1(1),L4_1(2),L4_1(3),X(1),X(2),X(3), 'Color', 'g', 'linewidth', 1.2);
+    quiver3(L4_1(1),L4_1(2),L4_1(3),Y(1),Y(2),Y(3), 'Color', 'g', 'linewidth', 1.2);
+    h3 = quiver3(L4_1(1),L4_1(2),L4_1(3),Z(1),Z(2),Z(3), 'Color', 'g', 'linewidth', 1.2);
 
     xlabel('x','FontSize',16)
     ylabel('y','FontSize',16)

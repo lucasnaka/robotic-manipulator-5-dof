@@ -7,9 +7,10 @@ clc
 %=========================================================================%
 
 offset3 = -pi/2;
-Th = [0; 0; 0 + offset3; 0; 0];
+Th = [0; 0; 0+offset3; 0; 0];
 
 cinematica_direta;
+T05_direta = T05;
 
 figure(1)
 plot_manipulador_from_forward_kinematic(R01, R02, R03, R05, L)
@@ -18,36 +19,47 @@ plot_manipulador_from_forward_kinematic(R01, R02, R03, R05, L)
 %=========================================================================%
 %                                Pieper                                   %
 %=========================================================================%
+
 % Matriz definida pelo operador. Nos definimos a seguinte matriz:
 
-syms gamma beta
+% gamma = 0;
+% beta = pi/4;
+% 
+% Rbeta = [0           1            0;
+%          sin(beta)   0   -cos(beta);
+%          -cos(beta)  0  -sin(beta)];
+% 
+% Rgamma = [sin(gamma)  cos(gamma) 0;
+%           0           0          -1;
+%           -cos(gamma) sin(gamma) 0];
+%      
+% Robjetivo = Rbeta * Rgamma;
+% 
+% ax = Robjetivo(1,3);
+% ay = Robjetivo(2,3);
+% az = Robjetivo(3,3);
+% 
+% ox = Robjetivo(1,2);
+% oy = Robjetivo(2,2);
+% oz = Robjetivo(3,2);
+% 
+% nx = Robjetivo(1,1);
+% ny = Robjetivo(2,1);
+% nz = Robjetivo(3,1);
 
-% gamma = pi/4;
-% beta = 0;
+ax = T05(1,3);
+ay = T05(2,3);
+az = T05(3,3);
 
-Rbeta = [0           1            0;
-         sin(beta)   0   -cos(beta);
-         -cos(beta)  0   -sin(beta)];
+ox = T05(1,2);
+oy = T05(2,2);
+oz = T05(3,2);
 
-Rgamma = [sin(gamma)  cos(gamma) 0;
-          0           0          -1;
-          -cos(gamma) sin(gamma) 0];
-     
-Robjetivo = Rbeta * Rgamma;
+nx = T05(1,1);
+ny = T05(2,1);
+nz = T05(3,1);
 
-ax = Robjetivo(1,3);
-ay = Robjetivo(2,3);
-az = Robjetivo(3,3);
-
-ox = Robjetivo(1,2);
-oy = Robjetivo(2,2);
-oz = Robjetivo(3,2);
-
-nx = Robjetivo(1,1);
-ny = Robjetivo(2,1);
-nz = Robjetivo(3,1);
-
-px = T05(1,4);
+px = T05(1,4)-eps;
 py = T05(2,4);
 pz = T05(3,4);
 
@@ -83,15 +95,29 @@ g1 = L(2)*cos(theta2) - L(3)*sin(theta2 + repmat(theta3,1,2));
 theta1 = atan2(py./g1, px./g1);
 
 % Calculo de theta4
-% S4 = -cos(theta1) ./ cos(theta2 + repmat(theta3,1,2));
+X1_4 = cos(theta1).*cos(theta2 + repmat(theta3,1,2));
+Y1_4 = sin(theta1);
+Z1_4 = ax;
+X2_4 = sin(theta1).*cos(theta2 + repmat(theta3,1,2));
+Y2_4 = -cos(theta1);
+Z2_4 = ay;
 
-S4 = -cos(theta1) .* cos(theta2 + repmat(theta3,1,2));
-C4 = -sin(theta1);
+S4 = (Z1_4*Y2_4 - Z2_4*Y1_4)./(X1_4.*Y2_4 - X2_4.*Y1_4);
+C4 = (Z2_4*X1_4 - Z1_4*X2_4)./(X1_4.*Y2_4 - X2_4.*Y1_4);
+
 theta4 = atan2(S4,C4);
 
 % Calculo de theta5
-S5 = oy*cos(theta1)./-sin(theta4);
-C5 = ny*cos(theta1)./sin(theta4);
+X1_5 = cos(theta2 + repmat(theta3,1,2));
+Y1_5 = sin(theta2 + repmat(theta3,1,2)).*cos(theta4); 
+Z1_5 = nz;
+X2_5 = -sin(theta2 + repmat(theta3,1,2)).*cos(theta4);
+Y2_5 = cos(theta2 + repmat(theta3,1,2));
+Z2_5 = oz;
+
+S5 = (Z1_5*Y2_5 - Z2_5*Y1_5)./(X1_5.*Y2_5 - X2_5.*Y1_5);
+C5 = (Z2_5*X1_5 - Z1_5*X2_5)./(X1_5.*Y2_5 - X2_5.*Y1_5);
+
 theta5 = atan2(S5,C5);
 
 % Todas as solucoes ate o momento
@@ -107,56 +133,58 @@ for i=1:size(all_q,1)
     Th = all_q(i,:);
     cinematica_direta;
     
+    disp('Da cinematica direta (objetivo):');
+    disp(vpa(T05_direta))
+    
     subplot(2,2,i)
     plot_manipulador_from_forward_kinematic(R01, R02, R03, R05, L)
 end
 
 
 %% Verificacao da orientacao
-
-R05_obj = [nx, ox, ax;
-           ny, oy  ay;
-           nz, oz, az];  
-
-% {0}
-X = [1; 0; 0];
-Y = [0; 1; 0];
-Z = [0; 0; 1];
-
-% {5} objetivo
-X5obj = R05_obj' * 1.2*X;
-Y5obj = R05_obj' * 1.2*Y;
-Z5obj = R05_obj' * 1.2*Z;
-
-% {5} obtido
-X5 = R05' * 1.4*X;
-Y5 = R05' * 1.4*Y;
-Z5 = R05' * 1.4*Z;
-
-figure(3)
-view([45 25])
-grid
-xlim([-2 2])
-ylim([-2 2])
-zlim([-2 2])
-hold on
-
-quiver3(0,0,0,X(1),X(2),X(3), 'Color', 'b', 'linewidth', 1.2);
-quiver3(0,0,0,Y(1),Y(2),Y(3), 'Color', 'b', 'linewidth', 1.2);
-h1 = quiver3(0,0,0,Z(1),Z(2),Z(3), 'Color', 'b', 'linewidth', 1.2);
-
-quiver3(0,0,0,X5obj(1),X5obj(2),X5obj(3), 'Color', 'r', 'linewidth', 1.2);
-quiver3(0,0,0,Y5obj(1),Y5obj(2),Y5obj(3), 'Color', 'r', 'linewidth', 1.2);
-h2 = quiver3(0,0,0,Z5obj(1),Z5obj(2),Z5obj(3), 'Color', 'r', 'linewidth', 1.2);
-
-quiver3(0,0,0,X5(1),X5(2),X5(3), 'Color', 'g', 'linewidth', 1.2);
-quiver3(0,0,0,Y5(1),Y5(2),Y5(3), 'Color', 'g', 'linewidth', 1.2);
-h3 = quiver3(0,0,0,Z5(1),Z5(2),Z5(3), 'Color', 'g', 'linewidth', 1.2);
-
-hold off
-
-legend([h1, h2, h3], '\{0\}', '\{5\} desejado', '\{5\} obtido')
-
-xlabel('x','FontSize',16)
-ylabel('y','FontSize',16)
-zlabel('z','FontSize',16)
+% R05_obj = [nx, ox, ax;
+%            ny, oy  ay;
+%            nz, oz, az];  
+% 
+% % {0}
+% X = [1; 0; 0];
+% Y = [0; 1; 0];
+% Z = [0; 0; 1];
+% 
+% % {5} objetivo
+% X5obj = R05_obj' * 1.2*X;
+% Y5obj = R05_obj' * 1.2*Y;
+% Z5obj = R05_obj' * 1.2*Z;
+% 
+% % {5} obtido
+% X5 = R05' * 1.4*X;
+% Y5 = R05' * 1.4*Y;
+% Z5 = R05' * 1.4*Z;
+% 
+% figure(3)
+% view([45 25])
+% grid
+% xlim([-2 2])
+% ylim([-2 2])
+% zlim([-2 2])
+% hold on
+% 
+% quiver3(0,0,0,X(1),X(2),X(3), 'Color', 'b', 'linewidth', 1.2);
+% quiver3(0,0,0,Y(1),Y(2),Y(3), 'Color', 'b', 'linewidth', 1.2);
+% h1 = quiver3(0,0,0,Z(1),Z(2),Z(3), 'Color', 'b', 'linewidth', 1.2);
+% 
+% quiver3(0,0,0,X5obj(1),X5obj(2),X5obj(3), 'Color', 'r', 'linewidth', 1.2);
+% quiver3(0,0,0,Y5obj(1),Y5obj(2),Y5obj(3), 'Color', 'r', 'linewidth', 1.2);
+% h2 = quiver3(0,0,0,Z5obj(1),Z5obj(2),Z5obj(3), 'Color', 'r', 'linewidth', 1.2);
+% 
+% quiver3(0,0,0,X5(1),X5(2),X5(3), 'Color', 'g', 'linewidth', 1.2);
+% quiver3(0,0,0,Y5(1),Y5(2),Y5(3), 'Color', 'g', 'linewidth', 1.2);
+% h3 = quiver3(0,0,0,Z5(1),Z5(2),Z5(3), 'Color', 'g', 'linewidth', 1.2);
+% 
+% hold off
+% 
+% legend([h1, h2, h3], '\{0\}', '\{5\} desejado', '\{5\} obtido')
+% 
+% xlabel('x','FontSize',16)
+% ylabel('y','FontSize',16)
+% zlabel('z','FontSize',16)
