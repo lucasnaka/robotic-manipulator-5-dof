@@ -29,18 +29,18 @@ SP_theta = [0 0 0 0 0];
 % Usando a funcao de alto nivel "geraTrajetoria"
 
 % Arrange trajectory points in a vector
-% traj_th1 = [0, 5, 0, 0, 0, 0, 0];
-% traj_th2 = [0, 0, 5, 0, 0, 0, 0];
-% traj_th3 = [0, 0, 0, 5, 0, 0, 0];
-% traj_th4 = [0, 0, 0, 0, 5, 0, 0];
-% traj_th5 = [0, 0, 0, 0, 0, 5, 0];
-traj_th1 = [0, 5, 10];
-traj_th2 = [0, 0, 0];
-traj_th3 = [0, 0, 0];
-traj_th4 = [0, 0, 0];
-traj_th5 = [0, 0, 0];
+traj_th1 = [0, 10, 0, 0, 0, 0, 0];
+traj_th2 = [0, 0, 10, 0, 0, 0, 0];
+traj_th3 = [0, 0, 0, 10, 0, 0, 0];
+traj_th4 = [0, 0, 0, 0, 10, 0, 0];
+traj_th5 = [0, 0, 0, 0, 0, 10, 0];
+% traj_th1 = [0, 5, 10];
+% traj_th2 = [0, 0, 0];
+% traj_th3 = [0, 0, 0];
+% traj_th4 = [0, 0, 0];
+% traj_th5 = [0, 0, 0];
 
-T = 30;
+T = 20;
 
 % Update rate and evaluation time vector
 simulation_time = ((length(traj_th1)-1)*T);
@@ -65,19 +65,27 @@ close all
 
 figure;
 subplot(5,1,1)
-plot_angular_position_ff(th1r, th1_path, tout, 1, 'b')
-
+plot_angular_position_ff(Thr.signals.values(:,1), Thd_path.signals.values(:,1), Thr.time, 1, 'b')
 subplot(5,1,2)
-plot_angular_position_ff(th2r, th2_path, tout, 2, 'r')
-
+plot_angular_position_ff(Thr.signals.values(:,2), Thd_path.signals.values(:,2), Thr.time, 2, 'r')
 subplot(5,1,3)
-plot_angular_position_ff(th3r, th3_path, tout, 3, 'm')
-
+plot_angular_position_ff(Thr.signals.values(:,3), Thd_path.signals.values(:,3), Thr.time, 3, 'm')
 subplot(5,1,4)
-plot_angular_position_ff(th4r, th4_path, tout, 4, 'g')
-
+plot_angular_position_ff(Thr.signals.values(:,4), Thd_path.signals.values(:,4), Thr.time, 4, 'g')
 subplot(5,1,5)
-plot_angular_position_ff(th5r, th5_path, tout, 5, 'c')
+plot_angular_position_ff(Thr.signals.values(:,5), Thd_path.signals.values(:,5), Thr.time, 5, 'c')
+
+figure;
+subplot(5,1,1)
+plot_angular_velocity_ff(dThr.signals.values(:,1), dThd_path.signals.values(:,1), dThr.time, 1, 'b')
+subplot(5,1,2)
+plot_angular_velocity_ff(dThr.signals.values(:,2), dThd_path.signals.values(:,2), dThr.time, 2, 'r')
+subplot(5,1,3)
+plot_angular_velocity_ff(dThr.signals.values(:,3), dThd_path.signals.values(:,3), dThr.time, 3, 'm')
+subplot(5,1,4)
+plot_angular_velocity_ff(dThr.signals.values(:,4), dThd_path.signals.values(:,4), dThr.time, 4, 'g')
+subplot(5,1,5)
+plot_angular_velocity_ff(dThr.signals.values(:,5), dThd_path.signals.values(:,5), dThr.time, 5, 'c')
 
 figure;
 subplot(2,1,1)
@@ -124,30 +132,30 @@ legend('V_1', 'V_2', 'V_3', 'V_4', 'V_5');
 
 
 
-%%
-% Plots
-close all
-
-% Plot posicoes angulares
-
-
-figure;
-plot(tout,th1_path,'b',tout,thd1,'--b',tout,th2_path,'r',tout,thd2,'--r',tout,th3_path,'m', ...
-    tout,thd3,'--m',tout,th4_path,'g',tout,thd4,'--g',tout,th5_path,'c',tout,thd5,'--c');
-title('Posição angular das juntas');
-grid('on')
-xlabel('Tempo (s)'); ylabel('Posição angular (º)')
-legend('$\theta_1$','$\theta^d_1$','$\theta_2$','$\theta^d_2$',...
-    '$\theta_3$','$\theta^d_3$','$\theta_4$','$\theta^d_4$',...
-    '$\theta_5$','$\theta^d_5$','Interpreter','latex');
-
-figure;
-plot(tout,dth1_path,'b',tout,dth2_path,'r',tout,dth3_path,'m',tout,dth4_path,'g',tout,dth5_path,'c');
-title('Velocidade angular das juntas');
-grid('on')
-xlabel('Tempo (s)'); ylabel('Velocidade angular (º/s)')
-legend('$\dot{\theta}_{1m}$', '$\dot{\theta}_{2m}$', '$\dot{\theta}_{3m}$', ...
-       '$\dot{\theta}_{4m}$', '$\dot{\theta}_{5m}$', 'Interpreter','latex');
+% %%
+% % Plots
+% close all
+% 
+% % Plot posicoes angulares
+% 
+% 
+% figure;
+% plot(tout,th1_path,'b',tout,thd1,'--b',tout,th2_path,'r',tout,thd2,'--r',tout,th3_path,'m', ...
+%     tout,thd3,'--m',tout,th4_path,'g',tout,thd4,'--g',tout,th5_path,'c',tout,thd5,'--c');
+% title('Posição angular das juntas');
+% grid('on')
+% xlabel('Tempo (s)'); ylabel('Posição angular (º)')
+% legend('$\theta_1$','$\theta^d_1$','$\theta_2$','$\theta^d_2$',...
+%     '$\theta_3$','$\theta^d_3$','$\theta_4$','$\theta^d_4$',...
+%     '$\theta_5$','$\theta^d_5$','Interpreter','latex');
+% 
+% figure;
+% plot(tout,dth1_path,'b',tout,dth2_path,'r',tout,dth3_path,'m',tout,dth4_path,'g',tout,dth5_path,'c');
+% title('Velocidade angular das juntas');
+% grid('on')
+% xlabel('Tempo (s)'); ylabel('Velocidade angular (º/s)')
+% legend('$\dot{\theta}_{1m}$', '$\dot{\theta}_{2m}$', '$\dot{\theta}_{3m}$', ...
+%        '$\dot{\theta}_{4m}$', '$\dot{\theta}_{5m}$', 'Interpreter','latex');
 
 %% Funcoes
 
@@ -159,4 +167,14 @@ function plot_angular_position_ff(thr, thd, tout, joint_number, color)
     ylabel(strcat('\theta_',int2str(joint_number),' (º)'))
     legend(strcat('$\theta_{',int2str(joint_number),'r}$'), strcat( ...
          '$\theta^d_', int2str(joint_number),'$'), 'Interpreter', 'latex');
+end
+
+function plot_angular_velocity_ff(thr, thd, tout, joint_number, color)
+    plot(tout,thr,color,tout,thd,strcat('--',color));
+    title(strcat('Velocidade angular da junta',{' '},int2str(joint_number)))
+    grid('on')
+    xlabel('Tempo (s)')
+    ylabel(strcat('\theta_',int2str(joint_number),' (º/s)'))
+    legend(strcat('$\dot{\theta}_{',int2str(joint_number),'r}$'), strcat( ...
+      '$\dot{\theta}^d_', int2str(joint_number),'$'), 'Interpreter', 'latex');
 end
