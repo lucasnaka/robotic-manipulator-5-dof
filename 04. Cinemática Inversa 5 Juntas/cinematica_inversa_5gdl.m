@@ -7,7 +7,7 @@ clc
 %=========================================================================%
 
 offset3 = -pi/2;
-Th = [0; 0; 0 + offset3; 0; 0];
+Th = [pi/4; pi/4; 0 + offset3; 0; 0];
 
 cinematica_direta;
 
@@ -20,10 +20,10 @@ plot_manipulador_from_forward_kinematic(R01, R02, R03, R05, L)
 %=========================================================================%
 % Matriz definida pelo operador. Nos definimos a seguinte matriz:
 
-syms gamma beta
+% syms gamma beta
 
-% gamma = pi/4;
-% beta = 0;
+gamma = pi/4;
+beta = 0;
 
 Rbeta = [0           1            0;
          sin(beta)   0   -cos(beta);

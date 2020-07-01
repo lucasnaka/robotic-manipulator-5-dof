@@ -57,7 +57,7 @@ th_path = [t1' th1_path' th2_path' th3_path' th4_path' th5_path'];
 dth_path = [t1' dth1_path' dth2_path' dth3_path' dth4_path' dth5_path'];
 ddth_path = [t1' ddth1_path' ddth2_path' ddth3_path' ddth4_path' ddth5_path'];
 
-sim('ControleFF_trajetoria', simulation_time)
+sim('ControleFF_trajetoria_D', simulation_time)
 
 %%
 % Plots
