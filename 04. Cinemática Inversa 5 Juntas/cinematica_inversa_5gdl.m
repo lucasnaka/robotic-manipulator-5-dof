@@ -7,7 +7,7 @@ clc
 %=========================================================================%
 
 offset3 = -pi/2;
-Th = [0; 0; 0+offset3; 0; 0];
+Th = [0; 0; pi/6+offset3; 0; 0];
 
 cinematica_direta;
 T05_direta = T05;
@@ -94,29 +94,21 @@ g1 = L(2)*cos(theta2) - L(3)*sin(theta2 + repmat(theta3,1,2));
 
 theta1 = atan2(py./g1, px./g1);
 
-% Calculo de theta4
-X1_4 = cos(theta1).*cos(theta2 + repmat(theta3,1,2));
-Y1_4 = sin(theta1);
-Z1_4 = ax;
-X2_4 = sin(theta1).*cos(theta2 + repmat(theta3,1,2));
-Y2_4 = -cos(theta1);
-Z2_4 = ay;
+% Calculo de theta4 e theta5
+c1 = cos(theta1);
+s1 = sin(theta1);
+c23 = cos(theta2 + repmat(theta3,1,2));
+s23 = sin(theta2 + repmat(theta3,1,2));
 
-S4 = (Z1_4*Y2_4 - Z2_4*Y1_4)./(X1_4.*Y2_4 - X2_4.*Y1_4);
-C4 = (Z2_4*X1_4 - Z1_4*X2_4)./(X1_4.*Y2_4 - X2_4.*Y1_4);
+% Calculo de theta4
+S4 = (ax*c1 + ay*s1) ./ (c23);
+C4 = (ax*s1.*c23 - ay*c1.*c23) ./ (c23);
 
 theta4 = atan2(S4,C4);
 
 % Calculo de theta5
-X1_5 = cos(theta2 + repmat(theta3,1,2));
-Y1_5 = sin(theta2 + repmat(theta3,1,2)).*cos(theta4); 
-Z1_5 = nz;
-X2_5 = -sin(theta2 + repmat(theta3,1,2)).*cos(theta4);
-Y2_5 = cos(theta2 + repmat(theta3,1,2));
-Z2_5 = oz;
-
-S5 = (Z1_5*Y2_5 - Z2_5*Y1_5)./(X1_5.*Y2_5 - X2_5.*Y1_5);
-C5 = (Z2_5*X1_5 - Z1_5*X2_5)./(X1_5.*Y2_5 - X2_5.*Y1_5);
+S5 = (nz*c23 - oz*s23.*C4) ./ (c23.^2 + s23.^2 .* C4.^4);
+C5 = (oz*c23 + nz*s23.*C4) ./ (c23.^2 + s23.^2 .* C4.^4);
 
 theta5 = atan2(S5,C5);
 
