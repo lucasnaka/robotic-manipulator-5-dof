@@ -7,7 +7,7 @@ clc
 %=========================================================================%
 
 offset3 = -pi/2;
-Th = [-pi/6; pi/4; pi/4+offset3; 0; pi/2];
+Th = [-pi/3; 0; 0+offset3; pi/4; pi/2];
 
 cinematica_direta;
 T05_direta = T05;
@@ -122,9 +122,9 @@ for i = 1:size(c23,2)
             if abs(X) < delta && abs(Y) > delta
                 disp('caso i')
                 C4 = Z/Y;
-                t4_1 = atan2(sqrt(1-C4^2), C4);
+                t4_1 = atan2(-sqrt(1-C4^2), C4);
                 t4_L = [t4_L t4_1];
-                t4_2 = atan2(-sqrt(1-C4^2), C4);
+                t4_2 = atan2(+sqrt(1-C4^2), C4);
                 t4_R = [t4_R t4_2];
                 flagAumentou4 = true;
             elseif abs(Y) < delta && abs(X) > delta
@@ -132,7 +132,7 @@ for i = 1:size(c23,2)
                 S4 = Z/X;
                 t4_1 = atan2(S4, sqrt(1-S4^2));
                 t4_L = [t4_L t4_1];
-                t4_2 = atan2(S4, -sqrt(1-C4^2));
+                t4_2 = atan2(S4, -sqrt(1-S4^2));
                 t4_R = [t4_R t4_2];
                 flagAumentou4 = true;
             elseif abs(X) > delta && abs(Y) > delta && abs(Z) < delta
@@ -164,7 +164,7 @@ for i = 1:size(c23,2)
                 S4 = Z/X;
                 t4_1 = atan2(S4, sqrt(1-S4^2));
                 t4_L = [t4_L t4_1];
-                t4_2 = atan2(S4, -sqrt(1-C4^2));
+                t4_2 = atan2(S4, -sqrt(1-S4^2));
                 t4_R = [t4_R t4_2];
                 flagAumentou4 = true;
             elseif abs(X) > delta && abs(Y) > delta && abs(Z) < delta
@@ -245,7 +245,7 @@ for i = 1:size(c4,2)
                 S5 = Z/X;
                 t5_1 = atan2(S5, sqrt(1-S5^2));
                 t5_L = [t5_L t5_1];
-                t5_2 = atan2(S5, -sqrt(1-C5^2));
+                t5_2 = atan2(S5, -sqrt(1-S5^2));
                 t5_R = [t5_R t5_2];
                 flagAumentou4 = true;
             elseif abs(X) > delta && abs(Y) > delta && abs(Z) < delta
@@ -277,7 +277,7 @@ for i = 1:size(c4,2)
                 S5 = Z/X;
                 t5_1 = atan2(S5, sqrt(1-S5^2));
                 t5_L = [t5_L t5_1];
-                t5_2 = atan2(S5, -sqrt(1-C5^2));
+                t5_2 = atan2(S5, -sqrt(1-S5^2));
                 t5_R = [t5_R t5_2];
                 flagAumentou4 = true;
             elseif abs(X) > delta && abs(Y) > delta && abs(Z) < delta
