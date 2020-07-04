@@ -29,11 +29,11 @@ SP_theta = [0 0 0 0 0];
 % Usando a funcao de alto nivel "geraTrajetoria"
 
 % Arrange trajectory points in a vector
-traj_th1 = [0, 10, 0, 0, 0, 0, 0];
-traj_th2 = [0, 0, 10, 0, 0, 0, 0];
-traj_th3 = [0, 0, 0, 10, 0, 0, 0];
-traj_th4 = [0, 0, 0, 0, 10, 0, 0];
-traj_th5 = [0, 0, 0, 0, 0, 10, 0];
+% traj_th1 = [0, 10, 0, 0, 0, 0, 0];
+% traj_th2 = [0, 0, 10, 0, 0, 0, 0];
+% traj_th3 = [0, 0, 0, 10, 0, 0, 0];
+% traj_th4 = [0, 0, 0, 0, 10, 0, 0];
+% traj_th5 = [0, 0, 0, 0, 0, 10, 0];
 % traj_th1 = [0, 5, 10];
 % traj_th2 = [0, 0, 0];
 % traj_th3 = [0, 0, 0];

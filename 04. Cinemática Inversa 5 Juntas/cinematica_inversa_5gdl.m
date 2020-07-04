@@ -107,8 +107,8 @@ C4 = (ax*s1.*c23 - ay*c1.*c23) ./ (c23);
 theta4 = atan2(S4,C4);
 
 % Calculo de theta5
-S5 = (nz*c23 - oz*s23.*C4) ./ (c23.^2 + s23.^2 .* C4.^4);
-C5 = (oz*c23 + nz*s23.*C4) ./ (c23.^2 + s23.^2 .* C4.^4);
+S5 = (nz*c23 - oz*s23.*C4) ./ (c23.^2 + s23.^2 .* C4.^2);
+C5 = (oz*c23 + nz*s23.*C4) ./ (c23.^2 + s23.^2 .* C4.^2);
 
 theta5 = atan2(S5,C5);
 
