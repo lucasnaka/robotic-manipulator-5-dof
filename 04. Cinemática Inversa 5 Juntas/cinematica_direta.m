@@ -47,6 +47,6 @@ R03 = R01*R12*R23;                              % Rotaciona de {3} para {0}
 R04 = R01*R12*R23*R34;                          % Rotaciona de {4} para {0}
 R05 = R01*R12*R23*R34*R45;                      % Rotaciona de {5} para {0}
 
-disp('From script cinematica_direta.m:')
-disp('T05 Matrix')
-disp(T05)
+% disp('From script cinematica_direta.m:')
+% disp('T05 Matrix')
+% disp(vpa(T05))

@@ -11,7 +11,7 @@ offset3 = -pi/2;
 % Exemplo cin inv so com o cotovelo para baixo (total = 2 solucoes)
 % Th = [-pi/3; 0; pi/4+offset3; pi/4; pi/4]; 
 
-% Exemplo cin inv (total = 8 solucoes)
+% Exemplo cin inv com varias solucoes (total = 8 solucoes)
 % Th = [-pi/3; 0; 0+offset3; 0; 0];
 
 % Exemplo cin inv com o cotovelo para baixo e para cima (total = 4 solucoes)
@@ -247,19 +247,19 @@ for i = 1:size(all_q, 1)
         eliminateIndex = [eliminateIndex, i];
     end
 end
-% Elimina as solucoes incoerentes
+% Elimina as solucoes incoerentes e iguala a zero os numeros muito pequenos
 all_q(eliminateIndex,:) = [];
+all_q(double(abs(all_q)) < delta) = 0;
 
 %% PLOT SOLUCOES
 disp('CINEMATICA INVERSA')
 
 figure(2)
-for i=1:size(all_q,1)
-    disp(strcat('q',int2str(i),' = '))
-    disp(all_q(i,:))
-    
+for i=1:size(all_q,1)    
     Th = all_q(i,:);
     cinematica_direta;
+    
+    fprintf(strcat('\nq',int2str(i),' = ',mat2str(double(all_q(i,:))),'\n'));
     
     disp('Da cinematica inversa (calculado):')
     disp(vpa(T05))
