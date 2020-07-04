@@ -20,7 +20,7 @@ offset3 = -pi/2;
 % Exemplo cin inv usando t31 e t32 para resolucao de theta5 (total = 2 solucoes)
 % Th = [pi/4; 0; pi/2+offset3; pi/4; 0];
 
-Th = [-pi/3; 0; 0+offset3; pi/2; 0];
+Th = [-pi/3; 0; pi/2+offset3; pi/2; 0];
 
 cinematica_direta;
 T05_direta = T05;
@@ -116,10 +116,11 @@ delta = 1e-7; % Para verificar igualdade ou nao em relacao a 0
 
 flagAumentou4 = false; % Indica que o numero de solucoes aumentou
 
+% Verifica se o sistema nao e impossivel
 det = c23;
-verif = double(abs(det)) < delta;
+verif = double(abs(det)) > delta;
 
-if verif == 0 
+if verif == true 
     disp('Resolvendo sistema com t13 e t23 para encontrar theta4')
     X1 = c1 .* c23;
     X2 = s1 .* c23;
@@ -140,7 +141,7 @@ else
         Y = s1(i);
         Z = ax;
         eq = 't13';
-        if abs(X) < delta && abs(Y) < delta
+        if abs(X) < delta && abs(Y) < delta % 0*s5 + 0*c5 = ax -> indeterminado
             X = s1(i)*c23(i);
             Y = -c1(i);
             Z = ay;
@@ -188,7 +189,7 @@ s23 = sin(theta2 + theta3);
 c4 = cos(theta4);
 s4 = sin(theta4);
 
-% Achamos qual sistema linear podemos resolver
+% Acha qual sistema linear pode ser resolvido (det != 0)
 det1 = c1.^2.*s23.^2 + (s1.*s4 - c4.*c1.*c23).^2;
 verif1 = double(det1) > delta;
 
@@ -234,7 +235,8 @@ theta5 = atan2(S5,C5);
 % Todas as solucoes ate o momento
 all_q = [theta1; theta2; theta3; theta4; theta5].';
 
-% Verificamos a coerencia das solucoes e eliminamos aquelas que sao inconsistentes com a realidade
+% Verifica a coerencia das solucoes e elimina aquelas que sao
+% inconsistentes com a fisica do robo
 eliminateIndex = [];
 for i = 1:size(all_q, 1)    
     Th = all_q(i,:);
