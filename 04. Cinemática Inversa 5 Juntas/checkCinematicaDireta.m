@@ -26,11 +26,11 @@ function [ eliminate ] = checkCinematicaDireta( T05_obj, theta, delta )
     R05 = [t11 t12 t13;
            t21 t22 t23;
            t31 t32 t33];
-    
+       
     % Comparar com matriz de rotacao desejada
-    verif = double(abs(R05 - T05_obj(1:3,1:3))) > delta;
+    verif = vpa(abs(R05 - T05_obj(1:3,1:3))) > delta;
     
-    if any(verif) == 1
+    if any(any(verif)) == 1
         eliminate = true;
     end
 end

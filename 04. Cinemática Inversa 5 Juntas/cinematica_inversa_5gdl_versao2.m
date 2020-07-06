@@ -1,26 +1,25 @@
 close all
 clear
 clc
-
 %=========================================================================%
 %                          Cinematica Direta                              %
 %=========================================================================%
 
 offset3 = -pi/2;
 
-% Exemplo cin inv so com o cotovelo para baixo (total = 2 solucoes)
-% Th = [-pi/3; 0; pi/4+offset3; pi/4; pi/4]; 
+% Ex1 relatorio
+% Th = [0; 0; 0+offset3; 0; 0];
 
-% Exemplo cin inv com varias solucoes (total = 8 solucoes)
-% Th = [-pi/3; 0; 0+offset3; 0; 0];
+% Ex2 relatorio
+% Th = [pi/6; 0; pi/4+offset3; 0; -pi/4];
 
-% Exemplo cin inv com o cotovelo para baixo e para cima (total = 4 solucoes)
-% Th = [-pi/3; 0; pi/4+offset3; 0; 0];
+% Ex3 relatorio
+% Th = [pi/6; 0; pi/4+offset3; pi/4; pi/4]; 
 
-% Exemplo cin inv usando t31 e t32 para resolucao de theta5 (total = 2 solucoes)
+% Ex4 relatorio
 % Th = [pi/4; 0; pi/2+offset3; pi/4; 0];
 
-Th = [-pi/3; 0; pi/2+offset3; pi/2; 0];
+Th = [0; 0; 0+offset3; 0; 0];
 
 cinematica_direta;
 T05_direta = T05;
@@ -256,7 +255,7 @@ all_q(double(abs(all_q)) < delta) = 0;
 %% PLOT SOLUCOES
 disp('CINEMATICA INVERSA')
 
-figure(2)
+% figure(2)
 for i=1:size(all_q,1)    
     Th = all_q(i,:);
     cinematica_direta;
@@ -269,9 +268,15 @@ for i=1:size(all_q,1)
     disp('Da cinematica direta (objetivo):');
     disp(vpa(T05_direta))
     
-    subplot(size(all_q,1)/2,2,i)
+    %subplot(size(all_q,1)/2,2,i)
+    figure
     plot_manipulador_from_forward_kinematic(R01, R02, R03, R05, L)
 end
+
+for i=1:size(all_q,1)  
+    all_q(i,:) = all_q(i,:)-[0,0,offset3,0,0];
+end
+double(all_q)
 
 
 %% Verificacao da orientacao
