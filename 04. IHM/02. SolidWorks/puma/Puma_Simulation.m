@@ -27,7 +27,9 @@ clear;close all; clc
 loaddata
 InitHome 
 
-fig_1 = figure
+globals = who('global');
+clear('global', globals{:})
+global fig_1
 
 %
 % Create the push buttons: pos is: [left bottom width height]
