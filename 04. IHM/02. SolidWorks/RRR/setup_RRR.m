@@ -4,9 +4,22 @@ clc
 
 load('linksdata.mat')
 
+s0.V(:,1:3) = s0.V(:,1:3) - [0 110 0];
+s1.V(:,1:3) = s1.V(:,1:3) - [0 110 0];
+s2.V(:,1:3) = s2.V(:,1:3) - [0 710 0];
+s3.V(:,1:3) = s3.V(:,1:3) - [0 1310 0];
+
+R = [cosd(-90), -sind(-90), 0;
+     sind(-90),  cosd(-90), 0;
+             0,          0, 1];
+
+s1.V(:,1:3) = (R*s1.V(:,1:3)')';
+s2.V(:,1:3) = (R*s2.V(:,1:3)')';
+s3.V(:,1:3) = (R*s3.V(:,1:3)')';
+
 dim = get(0,'ScreenSize');
 fig_1 = figure('doublebuffer','on','Position',[0,35,dim(3)-200,dim(4)-100],...
-                'Name',' Hook Graphical Demo',...
+                'Name','RRR',...
                 'NumberTitle','off');
 hold on
 light
@@ -29,11 +42,12 @@ set(p3, 'facec', [1,0.542,0.493]);
 set(p3, 'EdgeColor','none');
 
 t1 = 0;
-t2 = 30;
+t2 = 0;
 t3 = 0;
 
-L1 = 0;
-L2 = 0;
+% L = ??
+L1 = 600;
+L2 = 600;
 
 T_01 = tmat(0, 0, 0, t1);
 T_12 = tmat(0, L1, 0, t2);
@@ -46,10 +60,9 @@ Link1 = (T_01*s1.V')';
 Link2 = (T_02*s2.V')';
 Link3 = (T_03*s3.V')';
 
-
 dim = get(0,'ScreenSize');
 fig_1 = figure('doublebuffer','on','Position',[0,35,dim(3)-200,dim(4)-100],...
-                'Name',' Hook Graphical Demo',...
+                'Name','RRR',...
                 'NumberTitle','off');
 hold on
 light
