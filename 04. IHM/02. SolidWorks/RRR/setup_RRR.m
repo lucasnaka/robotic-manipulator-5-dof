@@ -15,6 +15,21 @@ view(135,25)
 xlabel('X'),ylabel('Y'),zlabel('Z')
 grid on
 
+s0.V = s0.V - [0 110 0 0];
+s1.V = s1.V - [0 110 0 0];
+s2.V = s2.V - [0 710 0 0];
+s3.V = s3.V - [0 1310 0 0];
+
+R = [cosd(-90) -sind(-90) 0 0;
+     sind(-90)  cosd(-90) 0 0;
+     0                  0 1 0;
+     0 0 0 1]
+
+s1.V = (R*s1.V')';
+s2.V = (R*s2.V')';
+s3.V = (R*s3.V')';
+
+
 p0 = patch('faces', s0.F, 'vertices', s0.V(:,1:3));
 set(p0, 'facec', [0.717,0.116,0.123]);
 set(p0, 'EdgeColor','none');
@@ -29,11 +44,12 @@ set(p3, 'facec', [1,0.542,0.493]);
 set(p3, 'EdgeColor','none');
 
 t1 = 0;
-t2 = 30;
+t2 = 0;
 t3 = 0;
 
-L1 = 0;
-L2 = 0;
+L0 = 110;
+L1 = 600;
+L2 = 600;
 
 T_01 = tmat(0, 0, 0, t1);
 T_12 = tmat(0, L1, 0, t2);
@@ -45,7 +61,6 @@ T_03 = T_02*T_23;
 Link1 = (T_01*s1.V')';
 Link2 = (T_02*s2.V')';
 Link3 = (T_03*s3.V')';
-
 
 dim = get(0,'ScreenSize');
 fig_1 = figure('doublebuffer','on','Position',[0,35,dim(3)-200,dim(4)-100],...
@@ -90,4 +105,5 @@ function T = tmat(alpha, a, d, theta)
     ca = cos(alpha);
     sa = sin(alpha);
     T = [c -s 0 a; s*ca c*ca -sa -sa*d; s*sa c*sa ca ca*d; 0 0 0 1];
+    %T = [c -s 0 0; s*ca c*ca -sa a; s*sa c*sa ca ca*d; 0 0 0 1];
 end
