@@ -6,7 +6,7 @@ load('linksdata.mat')
 
 dim = get(0,'ScreenSize');
 fig_1 = figure('doublebuffer','on','Position',[0,35,dim(3)-200,dim(4)-100],...
-                'Name',' Hook Graphical Demo',...
+                'Name','RRR',...
                 'NumberTitle','off');
 hold on
 light
@@ -44,8 +44,8 @@ set(p3, 'facec', [1,0.542,0.493]);
 set(p3, 'EdgeColor','none');
 
 t1 = 0;
-t2 = 0;
-t3 = 0;
+t2 = 45;
+t3 = 30;
 
 L0 = 110;
 L1 = 600;
@@ -64,7 +64,7 @@ Link3 = (T_03*s3.V')';
 
 dim = get(0,'ScreenSize');
 fig_1 = figure('doublebuffer','on','Position',[0,35,dim(3)-200,dim(4)-100],...
-                'Name',' Hook Graphical Demo',...
+                'Name','RRR',...
                 'NumberTitle','off');
 hold on
 light
