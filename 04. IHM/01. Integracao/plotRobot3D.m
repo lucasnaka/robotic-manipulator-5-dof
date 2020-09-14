@@ -1,4 +1,4 @@
-function [s0, s1, s2, s3, link0,link1,link2,link3] = plotRobot3D(t1, t2, t3)
+function [s0, s1, s2, s3, link0,link1,link2,link3,xdata,ydata,zdata] = plotRobot3D(t1, t2, t3, x_trail, y_trail, z_trail)
     addpath(strcat(fileparts(pwd),'\02. SolidWorks\RRR'))
     load('linksdata.mat')
     
@@ -32,5 +32,10 @@ function [s0, s1, s2, s3, link0,link1,link2,link3] = plotRobot3D(t1, t2, t3)
     link2 = (T_02*s2.V')';
     link3 = (T_03*s3.V')';
             
+    
+    xdata = [x_trail T_03(1,4)];
+    ydata = [y_trail T_03(2,4)];
+    zdata = [z_trail T_03(3,4)+253.6];
+                
 end
 
