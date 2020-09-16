@@ -19,7 +19,7 @@ function initializeRobotParameters()
     Jeff = 2.2;
     Beff = 50;
     T = Jeff/Beff;
-    r = [0.01 0.01 0.01];
+    r = [0.001 0.007 0.007];
 
     % Calculo parâmetros de controle
     qsi = 1;
