@@ -1,4 +1,10 @@
-function [s0, s1, s2, s3, link0,link1,link2,link3,xdata,ydata,zdata] = plotRobot3D(t1, t2, t3, x_trail, y_trail, z_trail)
+function [s0, s1, s2, s3, ...
+          link0, link1, link2, link3, ...
+          x_realizado, y_realizado, z_realizado, ...
+          x_desejado, y_desejado, z_desejado] = plotRobot3D(th1_realizado, th2_realizado, th3_realizado, ...
+                                                            th1_desejado, th2_desejado, th3_desejado, ...
+                                                            x_realizado, y_realizado, z_realizado, ...
+                                                            x_desejado, y_desejado, z_desejado)
     addpath(strcat(fileparts(pwd),'\02. SolidWorks\RRR'))
     load('linksdata.mat')
     
@@ -20,22 +26,34 @@ function [s0, s1, s2, s3, link0,link1,link2,link3,xdata,ydata,zdata] = plotRobot
     L1 = 600;
     L2 = 600;
 
-    T_01 = Tmatrix(0, 0, 0, t1);
-    T_12 = Tmatrix(0, L1, 0, t2);
-    T_23 = Tmatrix(0, L2, 0, t3);
+    % Realizado
+    T01 = Tmatrix(0, 0, 0, th1_realizado);
+    T12 = Tmatrix(0, L1, 0, th2_realizado);
+    T23 = Tmatrix(0, L2, 0, th3_realizado);
 
-    T_02 = T_01*T_12;
-    T_03 = T_02*T_23;
-
-    link0 = s0;
-    link1 = (T_01*s1.V')';
-    link2 = (T_02*s2.V')';
-    link3 = (T_03*s3.V')';
-            
+    T02 = T01*T12;
+    T03 = T02*T23;
     
-    xdata = [x_trail T_03(1,4)];
-    ydata = [y_trail T_03(2,4)];
-    zdata = [z_trail T_03(3,4)+253.6];
+    link0 = s0;
+    link1 = (T01*s1.V')';
+    link2 = (T02*s2.V')';
+    link3 = (T03*s3.V')';
+            
+    x_realizado = [x_realizado T03(1,4)];
+    y_realizado = [y_realizado T03(2,4)];
+    z_realizado = [z_realizado T03(3,4)+253.6];
+
+    % Desejado
+    T01_d = Tmatrix(0, 0, 0, th1_desejado);
+    T12_d = Tmatrix(0, L1, 0, th2_desejado);
+    T23_d = Tmatrix(0, L2, 0, th3_desejado);
+
+    T02_d = T01_d*T12_d;
+    T03_d = T02_d*T23_d;
+    
+    x_desejado = [x_desejado T03_d(1,4)];
+    y_desejado = [y_desejado T03_d(2,4)];
+    z_desejado = [z_desejado T03_d(3,4)+253.6];    
                 
 end
 
