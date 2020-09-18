@@ -1,0 +1,454 @@
+[33mcommit de785682a271bc85787a713eb7c2fc49c6460ba2[m[33m ([m[1;36mHEAD -> [m[1;32mIHM[m[33m)[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Fri Sep 18 14:46:00 2020 -0300
+
+    Plot do robô 5R finalizado
+
+[33mcommit a1fed957bf7d8624c5c62e6eac11e65e2bf64e00[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Fri Sep 18 14:15:01 2020 -0300
+
+    Plot do robô 5R
+
+[33mcommit 73a7ceeff3054b1732216acf147a0b7b00319a8c[m[33m ([m[1;31morigin/IHM[m[33m)[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Wed Sep 16 23:45:19 2020 -0300
+
+    Fix no plot do robo 5R e adição dos motores
+
+[33mcommit 9741bf1076a03a64e9bcc40d71cc3569fabdc099[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Wed Sep 16 16:12:10 2020 -0300
+
+    Ajuste na animação do RRR
+
+[33mcommit e4b9f7efea5e873c1192be4300f5d16954f64cf3[m
+Merge: 4135d2c a87fda0
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Wed Sep 16 12:54:43 2020 -0300
+
+    plot desired and realized trajectory
+
+[33mcommit 4135d2c86e9e9acd78873cc558c39077afd826af[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Mon Sep 14 15:57:11 2020 -0300
+
+    update app
+
+[33mcommit a87fda0b2c7354c0f5ad5b64578bce8464a8935b[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Sat Sep 12 15:53:53 2020 -0300
+
+    Montagem do robô 5R no Matlab (verificar cinemática direta)
+
+[33mcommit fc6e3588c29b9f369985f061190a8541687f98b7[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Mon Sep 7 15:39:27 2020 -0300
+
+    app robot animation
+
+[33mcommit 1e3852a26bcb17b5ca6f56758ec6bbfa040c265d[m
+Merge: 8a6243d ac22ca4
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Mon Sep 7 10:46:58 2020 -0300
+
+    fixing conflicts
+
+[33mcommit 8a6243d2f7a902855179c77287ae16c0dfae6d4c[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Mon Sep 7 10:43:49 2020 -0300
+
+    transformation matrix setup rrr
+
+[33mcommit ac22ca4e4b41f188566fef9d457b33b7ffa0945b[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Wed Sep 2 21:26:09 2020 -0300
+
+    Nome de arquivo mudado (save_and_plot.m -> save_linksdata.m) e plot do robô RRR finalizado
+
+[33mcommit 7653f9bdc837fe4138cbd7bbf08376e401c903fd[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun Aug 30 18:21:58 2020 -0300
+
+    plot robot 3R app designer
+
+[33mcommit 701e241d2f10a9a0f01d243906bb5a54fc7dbfee[m
+Merge: f16cc1d d19d2cc
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun Aug 30 16:30:27 2020 -0300
+
+    Merge branch 'IHM' of https://github.com/lucasnaka/robotic-manipulator-5-dof into IHM
+
+[33mcommit f16cc1d526289e61426d312436c64b06f38917b2[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun Aug 30 16:30:12 2020 -0300
+
+    app designer slider arrows
+
+[33mcommit b30a1c551b23854aecf0690b41e0ecef525cfb60[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun Aug 30 16:29:59 2020 -0300
+
+    app designer slider arrows
+
+[33mcommit d19d2ccd8c947eefab6447a78756b447a48c7aa2[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Sun Aug 30 16:07:01 2020 -0300
+
+    Tentativa de plot do robo RRR usando o modelo do Solidworks
+
+[33mcommit 2dc8d05c63cc703e209b40d23a30299b86fa538f[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Mon Aug 24 10:42:44 2020 -0300
+
+    Inclusão da função cad2mat - recebe um arquivo .stl e automaticamente salva em um arquivo .mat de mesmo nome no mesmo diretório
+
+[33mcommit 265039d2fd9fd134a3b0a64a289d27a3b78e9e5f[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Sun Aug 23 14:40:25 2020 -0300
+
+    Fixed geração de imagens da IHM do Puma
+
+[33mcommit 530b30a7596a57b627456aa44b7bc86b3bde93b5[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Sun Aug 23 13:13:15 2020 -0300
+
+    Inclusão de arquivos .mat para a simulação do Puma (solidworks)
+
+[33mcommit 0dc0129ffc1f6a0a3d164f231788697cdc448450[m[33m ([m[1;31morigin/Controle[m[33m)[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sat Aug 22 15:55:01 2020 -0300
+
+    refactoring folders
+
+[33mcommit 204f7a9fa75ac2adc3b770fe405ad4beada286a3[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Sat Aug 22 15:03:58 2020 -0300
+
+    Adição das pastas 9.Integração e 10.SolidWorks
+
+[33mcommit ff9e1294036cf986b3151d627684c328aa86ea9c[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sat Aug 22 13:43:31 2020 -0300
+
+    ultimas modificacoes antes das ferias
+
+[33mcommit f9920d7c328697a63586f1d92e6c11e0aabbf58f[m
+Merge: 0a6b826 9e2ac6b
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sat Aug 22 13:43:02 2020 -0300
+
+    Merge branch 'Controle' of https://github.com/lucasnaka/robotic-manipulator-5-dof into Controle
+
+[33mcommit 9e2ac6b190819c2cebfc7d3e61e99eb6fe5f64c0[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Wed Jul 8 13:28:03 2020 -0300
+
+    Códigos para modelagem não linear da junta 1
+
+[33mcommit 13832c5a70b0608e60fcfd49cd9e935ee73111d3[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Mon Jul 6 09:04:23 2020 -0300
+
+    Atualizacao da cin inversa
+    
+    Mudança no plot do robo
+
+[33mcommit 24223f05f2604e3d96c976fa8ad5b49e00a0588a[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Sat Jul 4 10:36:31 2020 -0300
+
+    Melhoria em checkCinematicaDireta (comparacao matricial) e melhores comentarios
+
+[33mcommit 0a6b8261528022746073552dbff81a5b0b2cf10a[m
+Merge: ce34706 b9bc83d
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sat Jul 4 09:32:42 2020 -0300
+
+    fixed commit
+
+[33mcommit ce347060aa94bd90b2c523c1b751b2b44d864441[m
+Merge: 47bda46 d36eb73
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Wed Jul 1 17:49:51 2020 -0300
+
+    update simulink ff
+
+[33mcommit b9bc83d487595ddce076edbbdf6cb714e808c92f[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Sat Jul 4 00:07:58 2020 -0300
+
+    Refinada na cin inversa
+    
+    Melhoria na impressão do fluxo da solução para o usuário
+    Mudança na impressão dos resultados para o usuário
+    Iguala a zero os resultados muito pequenos da solução
+    Retirada da impressão do resultado no script da cin direta
+
+[33mcommit 7bf4b62f0cc390da9627acbb7f7b18a3d7de6da5[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Fri Jul 3 23:32:34 2020 -0300
+
+    Cinematica inversa funcionando!!
+
+[33mcommit 6930ceb4f2c24a4f78ca7c76651805964fb98f6b[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Fri Jul 3 11:54:24 2020 -0300
+
+    Correcao das equacoes para theta4 e theta5 nos casos singulares
+
+[33mcommit c1305672954dbc013a86c8da98eefcfbb90a4b00[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Fri Jul 3 11:28:51 2020 -0300
+
+    Correcao da equacao para encontrar theta5
+
+[33mcommit d629ead85b43aad5d63cf0dbdb542c1c63be7494[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Fri Jul 3 10:11:49 2020 -0300
+
+    Tentativa de resolver theta4 e theta5 tratando casos singulares
+
+[33mcommit 47bda46f88882017b3ad6e2048d31243f442342c[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Wed Jul 1 17:46:06 2020 -0300
+
+    testes
+
+[33mcommit d36eb7335282f34cb0e5ccdc313c66bc39365b6c[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Wed Jul 1 17:41:09 2020 -0300
+
+    Melhoria na notação das contas da cin inversa (falta resolver theta4)
+
+[33mcommit 6fc5f6e8ffe58b6cfb34ee3a704a18d5ead77b11[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Tue Jun 30 16:56:49 2020 -0300
+
+    Contas da cin inversa funcionando (falta a descricao do operador)
+
+[33mcommit 3b529b07c458aceab7be9d4be71636a9c09a6b25[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Mon Jun 29 00:30:16 2020 -0300
+
+    updates plot FF and simulinks
+
+[33mcommit df2a53afc4b930c3a5a563b4f00c77738439110d[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Sun Jun 28 23:33:48 2020 -0300
+
+    Feedforward com compensacao de perturbacao
+
+[33mcommit cdd0de453bd7026287f87b7156671781c10cf8b2[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun Jun 28 23:14:49 2020 -0300
+
+    feed forward working
+
+[33mcommit 2aac043890c6f2b95a9ba0c4c523a10cc5d7f396[m
+Merge: 4b0b8be b4a3b39
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun Jun 28 20:42:08 2020 -0300
+
+    fixed conflicts
+
+[33mcommit 4b0b8bed6938b9aacf90ea79895acaf013f04f85[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun Jun 28 20:40:39 2020 -0300
+
+    updates ff
+
+[33mcommit b4a3b393bab45ce253b9e6764e6c6148cd8e9ce1[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Sun Jun 28 20:35:45 2020 -0300
+
+    Controle feedforward usando a trajetoria
+
+[33mcommit 95c6e17a5f50f0b05596fb4dd89578c6577d29aa[m
+Merge: 0729e3a 556c50a
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun Jun 28 13:21:55 2020 -0300
+
+    fixed conflicts
+
+[33mcommit 0729e3a673594d0db2a10734024711cf451a3263[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun Jun 28 13:20:17 2020 -0300
+
+    tests on PD control
+
+[33mcommit 556c50afa5daa5ceee80323f1f3c1d0022b38314[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Sat Jun 27 20:59:27 2020 -0300
+
+    Cinematica direta simbolica e igualdades da cin inversa
+
+[33mcommit d37f79de2dd1aed4d39d6c4d4567cfe5040a0cb8[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Sat Jun 27 20:57:45 2020 -0300
+
+    Cinematica inversa com theta4 corrigido
+
+[33mcommit f61501591fa8446aefb33eb0c461a5851b7f7ab2[m
+Author: Vinicius Lopes Simoes <vini.lopes.simoes@gmail.com>
+Date:   Sat Jun 27 20:55:07 2020 -0300
+
+    Adicao da cinematica direta usando loadT
+
+[33mcommit 39f146c802c711c88c00635c0b5f567c23055d83[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sat Jun 27 15:39:49 2020 -0300
+
+    codigo cin inversa modularizado
+
+[33mcommit e4815fe9a7b9e9c9724f5713dbe6eee5997a38ec[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sat Jun 27 01:17:28 2020 -0300
+
+    first FF simulink
+
+[33mcommit a289bfe9c5df13921c41a8bfa7c20cdbc673ee6e[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Tue Jun 23 15:04:38 2020 -0300
+
+    Funcao encapsulada da geracao de trajetorias
+
+[33mcommit 9ad2bce232e1572afc5c19a9129635b732fd2b38[m[33m ([m[1;31morigin/Trajetoria[m[33m)[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Mon Jun 22 23:47:41 2020 -0300
+
+    first control commit
+
+[33mcommit 018344d9d7632f7563832679fa632ad0e30615a3[m
+Merge: 0563d11 927f8a4
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Mon Jun 22 21:12:22 2020 -0300
+
+    updates on trajectory
+
+[33mcommit 927f8a429eb777d01c4b30d6831cf50b4a3c9b93[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Fri Jun 12 12:37:35 2020 -0300
+
+    Adicao da funcao trajectoryplanning (exercicio 1 da lista do Fabio) e teste no script trajectory.m
+
+[33mcommit 8e051254fe5ddefd24523965bd8edbcca1b1976d[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Fri Jun 12 11:22:00 2020 -0300
+
+    Adicao da funcao cubcoef (exercicio 1 proposto pelo Fabio)
+
+[33mcommit 0563d1144c0f6166be88245275d96418d5e30461[m
+Merge: 0467f1d 1240817
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Thu Jun 11 13:45:24 2020 -0300
+
+    solving conflicts
+
+[33mcommit 0467f1d0994e7df9d006a528d1dd108b6dce014c[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Thu Jun 11 13:43:38 2020 -0300
+
+    updates trajectory
+
+[33mcommit 1240817f045ebeedee5923d655b4832a08827359[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Thu Jun 11 09:37:17 2020 -0300
+
+    Mudanca no plot (origem e L3) no codigo da animacao da dinamica
+
+[33mcommit c96586641b880b614d57aefb02c251d10f1a2b12[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Wed Jun 10 21:57:49 2020 -0300
+
+    Mudanca no plot da cinematica inversa (L3 <- L3 + L4)
+
+[33mcommit 142a7e90b67e13222f3a7b35f74b9647b5033550[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Wed Jun 10 21:40:42 2020 -0300
+
+    Mudanca no plot da cinematica direta (L3 <- L3 + L4)
+
+[33mcommit 2b1fd150afbfacb5b9e4104aaf6a6ea355662e42[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Wed Jun 10 20:26:44 2020 -0300
+
+    Adicao do plot dos sistemas de coordenadas
+
+[33mcommit a9d0a1df9859a0a2e26687985eba4c61d5866d5b[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Tue Jun 9 23:52:58 2020 -0300
+
+    added trajectory script
+
+[33mcommit 947f559fdd74af08d08ccb26b002b52d22968098[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Tue Jun 9 10:16:38 2020 -0300
+
+    adicionado matriz dependente de gamma e beta
+
+[33mcommit 460f9034b78827e4d1b24b572bf41254a1633c6c[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Tue Jun 9 09:41:01 2020 -0300
+
+    cinematica inversa corrigida
+
+[33mcommit 2ac3f8e89bdf3b7357634022e867f2200f2e6afc[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Sun May 31 16:35:59 2020 -0300
+
+    Script para animação da dinâmica
+
+[33mcommit 507f6f413fdab01846e2f1ff6a9ed0be05f8dd47[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun May 31 13:41:54 2020 -0300
+
+    Criadas versoes simulink 2015
+
+[33mcommit f9e9f531dd24da2892a0a43abae4c5880f8df9ba[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun May 31 12:31:30 2020 -0300
+
+    teste dinamica e simulinks controle
+
+[33mcommit 9fda640ad34bfb9c6d6a30b22ab937044287d2c2[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Sun May 31 00:49:59 2020 -0300
+
+    Dinamica separada em M, V, G
+
+[33mcommit 05100f124b7e130bbce783ee963c7d795aadf1cb[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Wed May 27 00:47:19 2020 -0300
+
+    Calculo dos torques finalizado. Inicio da separacao das matrizes M, G e V
+
+[33mcommit 0f8bea19f2623799c2a66f4ed9ea409ef15a2617[m[33m ([m[1;31morigin/NovaCinematica[m[33m)[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Tue May 26 22:54:51 2020 -0300
+
+    Atualizacao da cinematica direta e inversa com novos sistemas de coordenadas
+
+[33mcommit 378aacd6d0f4d182534d722a6617cde1d34282b1[m[33m ([m[1;31morigin/novaCinematicaInversa[m[33m)[m
+Author: vinisimoes <vini.lopes.simoes@gmail.com>
+Date:   Tue May 19 11:26:50 2020 -0300
+
+    Nova conta da cinematica inversa
+
+[33mcommit 7e0623d3f0b143f9368e04ed8e1b442737fa86f6[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Tue May 19 09:31:50 2020 -0300
+
+    updates na dinamica
+
+[33mcommit 02d8db95093b719c661a175d672e967d4048ae62[m
+Author: lu_naka <lunetonaka@gmail.com>
+Date:   Mon May 11 10:29:52 2020 -0300
+
+    first commit
+
+[33mcommit 0856305db444fa7b3975ef98e76de86b5830e078[m
+Author: lucasnaka <lunetonaka@gmail.com>
+Date:   Mon May 11 10:28:33 2020 -0300
+
+    Initial commit

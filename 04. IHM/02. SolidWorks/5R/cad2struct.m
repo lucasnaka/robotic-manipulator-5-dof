@@ -2,6 +2,7 @@ function s = cad2struct(filename)
     % Reads CAD STL ASCII files, which most CAD programs can export.
     % Returns a struct containing F, V and C.
     % 
+    fprintf('Reading file: %s\n',filename);
     
     [F,V,C] = rndread(filename);
 
@@ -57,7 +58,7 @@ function s = cad2struct(filename)
            vnum = vnum + 1;                % If a V we count the # of V's
            report_num = report_num + 1;    % Report a counter, so long files show status
            if report_num > 249
-               fprintf('Reading vertix num: %d.\n',vnum);
+               % fprintf('Reading vertix num: %d.\n',vnum);
                report_num = 0;
            end
            
