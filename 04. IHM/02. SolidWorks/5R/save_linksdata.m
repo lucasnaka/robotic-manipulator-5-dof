@@ -15,7 +15,7 @@ s_3M2CC = cad2struct("./STLs/3M2CC_ROBO_NOVO.STL");
 s_4M1D = cad2struct("./STLs/4M1D_ROBO_NOVO.STL");
 s_4M2B = cad2struct("./STLs/4M2B.STL");
 s_4M2CB = cad2struct("./STLs/4M2CB_NOVO_ROBO.STL");
-s_garra = cad2struct("./STLs/GARRA ROBO_NOVO.STL");
+s_garra = cad2struct("./STLs/GARRA ROBO_NOVO_FABIO_LEVE.STL");
 s_motor_52rpm = cad2struct("./STLs/motor 52rpm.STL");
 
 save('linksdata.mat', 's_1M2A', 's_1M1B', 's_2M1D', 's_2M2HA', 's_2M2MA', ...
