@@ -1,4 +1,4 @@
-function [T05] = cin_direta(Th)
+function [T05, T35] = cin_direta(Th)
 % UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 %=========================================================================%
@@ -27,6 +27,6 @@ T34 = Tmatrix(alpha(4), a(4), d(4), Th(4));          % Transforma de {4} para {3
 T45 = Tmatrix(alpha(5), a(5), d(5), Th(5));          % Transforma de {5} para {4}
 
 T05 = T01*T12*T23*T34*T45;                     % Transforma de {5} para {0}
-
+T35 = T34*T45;
 end
 

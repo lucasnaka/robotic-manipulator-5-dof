@@ -1,9 +1,19 @@
-function createTrajectory(SP_theta, Theta_final)
-          
+function createTrajectory(trajectory)
+    
+    traj_th1 = str2num(trajectory{1});
+    traj_th2 = str2num(trajectory{2});
+    traj_th3 = str2num(trajectory{3});
+    traj_th4 = str2num(trajectory{4});
+    traj_th5 = str2num(trajectory{5});
+    
+    SP_theta = [traj_th1(1) traj_th2(1) traj_th3(1) traj_th4(1) traj_th5(1)];
+    
     % Arrange trajectory points in a vector
-    traj_th1 = [SP_theta(1), Theta_final(1)];
-    traj_th2 = [SP_theta(2), Theta_final(2)];
-    traj_th3 = [SP_theta(3), Theta_final(3)];
+%     traj_th1 = [SP_theta(1), Theta_final(1)];
+%     traj_th2 = [SP_theta(2), Theta_final(2)];
+%     traj_th3 = [SP_theta(3), Theta_final(3)];
+%     traj_th4 = [SP_theta(4), Theta_final(4)];
+%     traj_th5 = [SP_theta(5), Theta_final(5)];
 
     T = 5;
 
@@ -15,10 +25,12 @@ function createTrajectory(SP_theta, Theta_final)
     [t1, th1_path, dth1_path, ddth1_path] = geraTrajetoria(traj_th1, T, rate);
     [t2, th2_path, dth2_path, ddth2_path] = geraTrajetoria(traj_th2, T, rate);
     [t3, th3_path, dth3_path, ddth3_path] = geraTrajetoria(traj_th3, T, rate);
+    [t4, th4_path, dth4_path, ddth4_path] = geraTrajetoria(traj_th4, T, rate);
+    [t5, th5_path, dth5_path, ddth5_path] = geraTrajetoria(traj_th5, T, rate);
 
-    th_path = [t1' th1_path' th2_path' th3_path'];
-    dth_path = [t1' dth1_path' dth2_path' dth3_path'];
-    ddth_path = [t1' ddth1_path' ddth2_path' ddth3_path'];
+    th_path = [t1' th1_path' th2_path' th3_path' th4_path' th5_path'];
+    dth_path = [t1' dth1_path' dth2_path' dth3_path' dth4_path' dth5_path'];
+    ddth_path = [t1' ddth1_path' ddth2_path' ddth3_path' ddth4_path' ddth5_path'];
     
     assignin('base', "SP_theta", SP_theta);
     assignin('base', "th_path", th_path);
