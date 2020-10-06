@@ -1,6 +1,11 @@
 function [th_realizado, th_desejado, dth_realizado, dth_desejado, ddth_realizado, ddth_desejado, ...
           esforco_controle, theta_erro, tout] = control_robotic_arm(T)
-    % sim('ControlePD_ind')
+    
+    % Check if Simulink model is open
+    if slreportgen.utils.isModelLoaded('sf_car')
+        open_system('ControleFF_trajetoria_D_integrado')
+    end
+    
     set_param('ControleFF_trajetoria_D_integrado','StartTime','0','StopTime',num2str(T))
     sim('ControleFF_trajetoria_D_integrado')
     
