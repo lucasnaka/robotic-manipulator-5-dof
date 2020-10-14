@@ -1,8 +1,8 @@
 function [th_realizado, th_desejado, dth_realizado, dth_desejado, ddth_realizado, ddth_desejado, ...
-          esforco_controle, theta_erro, tout] = control_robotic_arm(T)
+          esforco_controle, theta_erro, G, V, tal_res, tal_motor, tout] = control_robotic_arm(T)
     
     % Check if Simulink model is open
-    if slreportgen.utils.isModelLoaded('sf_car')
+    if slreportgen.utils.isModelLoaded('ControleFF_trajetoria_D_integrado')
         open_system('ControleFF_trajetoria_D_integrado')
     end
     
@@ -17,6 +17,10 @@ function [th_realizado, th_desejado, dth_realizado, dth_desejado, ddth_realizado
     ddth_desejado = ddThd_path.signals.values;
     esforco_controle = Vcontrole.signals.values;
     theta_erro = erro.signals.values;
+    G = G.signals.values;
+    V = V.signals.values;
+    tal_res = tal_res.signals.values;
+    tal_motor = tal_motor.signals.values;
     tout = tout;
     
 end
