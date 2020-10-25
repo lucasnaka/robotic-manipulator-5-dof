@@ -1,8 +1,8 @@
 function initializeRobotParameters()
     clear all
     close all
-%     K = (90/12)*(2*pi/60); % Motor de 90 rpm para 12 V
-    K = 48.69;
+    K = (90/12)*(2*pi/60); % Motor de 90 rpm para 12 V
+%     K = 48.69;
     Jeff = 0.5;
     Beff = 50;
     %T = Jeff/Beff;
@@ -19,8 +19,8 @@ function initializeRobotParameters()
     Ts = 1/100;
     
     % Non linearity parameters
-%     phi = 43.47;
-    phi = 0.1;
+    phi = 43.47;
+%     phi = 0.1;
 
 
 %     K = 17.7;

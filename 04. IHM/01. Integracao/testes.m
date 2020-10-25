@@ -1,13 +1,18 @@
 close all
 
-amp = 20;
+amp = 5;
 freq = 2*pi*0.5;
-Fc = 2.4;
-Fs = 4.9;
+Fs = 1.5;
+Fc = 0.5;
+alpha = 0.1;
 sigma0 = 1e4;
-sigma1 = 500;
-sigma2 = 11.1;
-alpha = 6.7;
+sigma1 = 0.5e3;
+sigma2 = 1;
+% SP_theta = [0,0,0,0,0];
+
+% Fs = 0.5;
+% Fc = 0.2;
+% alpha = 0.01;
 
 tal_F_array = [];
 dThr_array = [];
@@ -86,6 +91,35 @@ xlabel('Velocidade [rad/s]')
 ylabel('Torque de atrito [N.m]')
 set(gca,'FontSize',10)
 
+esforco_controle = esforco_controle.signals.values;
+tal_motor = tal_motor.signals.values;
+
+figure;
+subplot(4,1,1)
+plot_friction_force(tal_F(1:size(tal_F,1)/6,1), tout(1:size(tal_F,1)/6), 1, 'b')
+subplot(4,1,2)
+plot_velocity(dThr(1:size(tal_F,1)/6,1), tout(1:size(tal_F,1)/6), 1, 'b')
+subplot(4,1,3)
+plot_control_effort(esforco_controle(1:size(tal_F,1)/6,1), tout(1:size(tal_F,1)/6), 1, 'b')
+subplot(4,1,4)
+plot_motor_force(tal_motor(1:size(tal_F,1)/6,1), tout(1:size(tal_F,1)/6), 1, 'b')
+
+figure;
+subplot(4,1,1)
+plot_friction_force(tal_F(:,1), tout, 1, 'b')
+subplot(4,1,2)
+plot_velocity(dThr(:,1), tout, 1, 'b')
+subplot(4,1,3)
+plot_control_effort(esforco_controle(:,1), tout, 1, 'b')
+subplot(4,1,4)
+plot_motor_force(tal_motor(:,1), tout, 1, 'b')
+
+figure;
+plot(esforco_controle(:,1), dThr(:,1))
+xlabel('Esforço de controle [V]')
+ylabel('Velocidade [rad/s]')
+set(gca,'FontSize',10)
+
 function plot_friction_force(tal_F, tout, joint_number, color)
     plot(tout,tal_F,color);
     title(strcat('Torque de atrito da junta',{' '},int2str(joint_number)))
@@ -119,5 +153,23 @@ function plot_velocity(dThr, tout, joint_number, color)
     grid('on')
     xlabel('Tempo [s]')
     ylabel('[rad/s]')
+    set(gca,'FontSize',8)
+end
+
+function plot_control_effort(V_controle, tout, joint_number, color)
+    plot(tout,V_controle,color);
+    title(strcat('Esforço de controle da junta',{' '},int2str(joint_number)))
+    grid('on')
+    xlabel('Tempo [s]')
+    ylabel('[V]')
+    set(gca,'FontSize',8)
+end
+
+function plot_motor_force(tal_motor, tout, joint_number, color)
+    plot(tout,tal_motor,color);
+    title(strcat('Torque motor da junta',{' '},int2str(joint_number)))
+    grid('on')
+    xlabel('Tempo [s]')
+    ylabel('[N.m]')
     set(gca,'FontSize',8)
 end

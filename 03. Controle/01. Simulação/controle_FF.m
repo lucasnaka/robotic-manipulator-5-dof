@@ -29,11 +29,11 @@ SP_theta = [0 0 0 0 0];
 % Usando a funcao de alto nivel "geraTrajetoria"
 
 % Arrange trajectory points in a vector
-traj_th1 = [0, 10  0, 0,  0, 0, 0,  0, 0, 0,  0, 0, 0,  0, 0, 0];
-traj_th2 = [0,  0, 0, 0, 10, 0, 0,  0, 0, 0,  0, 0, 0,  0, 0, 0];
-traj_th3 = [0,  0, 0, 0,  0, 0, 0, 10, 0, 0,  0, 0, 0,  0, 0, 0];
-traj_th4 = [0,  0, 0, 0,  0, 0, 0,  0, 0, 0, 10, 0, 0,  0, 0, 0];
-traj_th5 = [0,  0, 0, 0,  0, 0, 0,  0, 0, 0,  0, 0, 0, 10, 0, 0];
+traj_th1 = [0, 10];
+traj_th2 = [0,  0];
+traj_th3 = [0,  0];
+traj_th4 = [0,  0];
+traj_th5 = [0,  0];
 % traj_th1 = [0, 5, 10];
 % traj_th2 = [0, 0, 0];
 % traj_th3 = [0, 0, 0];
@@ -58,7 +58,7 @@ dth_path = [t1' dth1_path' dth2_path' dth3_path' dth4_path' dth5_path'];
 ddth_path = [t1' ddth1_path' ddth2_path' ddth3_path' ddth4_path' ddth5_path'];
 
 % sim('ControleFF_trajetoria_D', simulation_time)
-sim('ControlePD_trajetoria', simulation_time)
+sim('ControleFF_D_NL', simulation_time)
 
 %%
 % Plots

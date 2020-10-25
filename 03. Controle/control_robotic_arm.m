@@ -11,9 +11,9 @@ function [th_realizado, th_desejado, dth_realizado, dth_desejado, ddth_realizado
 %     set_param('ControleFF_trajetoria_D_integrado','StartTime','0','StopTime',num2str(T))
 %     sim('ControleFF_trajetoria_D_integrado')
     
-    set_param('ControleFF_D_NL','StartTime','0','StopTime',num2str(T))
-    set_param('ControleFF_D_NL/Dinâmica do robô/Int_Thr', 'InitialCondition', mat2str(pi/180*[trajectory(1,1), trajectory(2,1), trajectory(3,1), trajectory(4,1), trajectory(5,1)]));
-    sim('ControleFF_D_NL')
+    set_param('ControleFF_trajetoria_D_integrado','StartTime','0','StopTime',num2str(T))
+    set_param('ControleFF_trajetoria_D_integrado/Dinâmica do robô/Int_Thr', 'InitialCondition', mat2str(pi/180*[trajectory(1,1), trajectory(2,1), trajectory(3,1), trajectory(4,1), trajectory(5,1)]));
+    sim('ControleFF_trajetoria_D_integrado')
     
     th_realizado = Thr.signals.values;
     th_desejado = Thd_path.signals.values;
