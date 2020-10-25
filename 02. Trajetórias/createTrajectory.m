@@ -6,8 +6,6 @@ function createTrajectory(trajectory, T)
 %     traj_th4 = str2num(trajectory{4});
 %     traj_th5 = str2num(trajectory{5});
     
-    SP_theta = [trajectory(1,1) trajectory(2,1) trajectory(3,1) trajectory(4,1) trajectory(5,1)];
-    
     % Arrange trajectory points in a vector
 %     traj_th1 = [SP_theta(1), Theta_final(1)];
 %     traj_th2 = [SP_theta(2), Theta_final(2)];
@@ -30,7 +28,6 @@ function createTrajectory(trajectory, T)
     dth_path = [t1' dth1_path' dth2_path' dth3_path' dth4_path' dth5_path'];
     ddth_path = [t1' ddth1_path' ddth2_path' ddth3_path' ddth4_path' ddth5_path'];
     
-    assignin('base', "SP_theta", SP_theta);
     assignin('base', "th_path", th_path);
     assignin('base', "dth_path", dth_path);
     assignin('base', "ddth_path", ddth_path);

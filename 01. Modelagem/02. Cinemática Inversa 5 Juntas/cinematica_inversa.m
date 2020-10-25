@@ -1,4 +1,4 @@
-function [Theta] = cinematica_inversa(px, py, pz, alpha, beta, Theta_atual, L)
+function [Theta] = cinematica_inversa(px, py, pz, alpha, beta, Theta_atual, L, jointsLimits)
 
 %   - (px, py, pz) = posição da origem dos sistemas 4 e 5
 %   -     alpha    = rotação da garra em relação ao eixo Z5
@@ -16,7 +16,6 @@ else
     theta3 = [atan2(S3, C3_1), atan2(S3, C3_2)];
 end
 theta3 = repmat(theta3,1,2);
-
 
 % Calculo de theta2
 a = L(2) - L(3)*S3;
@@ -51,15 +50,26 @@ end
 Theta = [theta1(1), theta2(1), theta3(1), theta4(1), theta5(1)];
 dist_min = norm(Theta - Theta_atual);
 
+offset = -90;
+
 for i = 2:4
     Theta_iter = [theta1(i), theta2(i), theta3(i), theta4(i), theta5(i)];
-    dist = norm(Theta_iter - Theta_atual);
-    
-    if dist < dist_min
-        Theta = Theta_iter;
-        dist_min = dist;
+    if any(rad2deg(Theta) - [0,0,offset,0,0] < jointsLimits(:,1)') | any(rad2deg(Theta) - [0,0,offset,0,0]> jointsLimits(:,2)')
+        dist = norm(Theta_iter - Theta_atual);
+
+        if dist < dist_min
+            Theta = Theta_iter;
+            dist_min = dist;
+        end
     end
 end
+
+if any(rad2deg(Theta) - [0,0,offset,0,0] < jointsLimits(:,1)') | any(rad2deg(Theta) - [0,0,offset,0,0] > jointsLimits(:,2)')
+    Theta = false;
+end
+
+assignin('base', 'teste1', Theta)
+assignin('base', 'teste2', jointsLimits)
 
 end
 

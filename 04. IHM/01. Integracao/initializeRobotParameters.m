@@ -1,5 +1,8 @@
 function initializeRobotParameters()
-    K = (90/12)*(2*pi/60); % Motor de 90 rpm para 12 V
+    clear all
+    close all
+%     K = (90/12)*(2*pi/60); % Motor de 90 rpm para 12 V
+    K = 48.69;
     Jeff = 0.5;
     Beff = 50;
     %T = Jeff/Beff;
@@ -14,6 +17,11 @@ function initializeRobotParameters()
 
     Td = Kd/Kp;
     Ts = 1/100;
+    
+    % Non linearity parameters
+%     phi = 43.47;
+    phi = 0.1;
+
 
 %     K = 17.7;
 %     Jeff = 2.2;
@@ -42,5 +50,6 @@ function initializeRobotParameters()
     assignin('base', "Ts", Ts);
     assignin('base', "Jeff", Jeff);
     assignin('base', "Beff", Beff);
+    assignin('base', "phi", phi);
 end
 

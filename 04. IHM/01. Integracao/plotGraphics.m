@@ -75,14 +75,16 @@ function plotGraphics(Thr, Thd, dThr, dThd, ddThr, ddThd, x_realizado, y_realiza
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if control_effort_plot_bool == 1
         figure;
-        % subplot(2,1,2)
-        plot(tout,control_effort(:,1),'b',tout,control_effort(:,2),'r', ...
-             tout,control_effort(:,3),'m',tout,control_effort(:,4),'g', ...
-             tout,control_effort(:,5),'c');
-        % title('Tensão de controle')
-        grid('on')
-        xlabel('Tempo (s)');  ylabel('Tensão (V)')
-        legend('V_1', 'V_2', 'V_3', 'V_4', 'V_5', 'FontSize', 11)
+        subplot(5,1,1)
+        plot_control_effort(control_effort(:,1), tout, 1, 'b')
+        subplot(5,1,2)
+        plot_control_effort(control_effort(:,2), tout, 2, 'r')
+        subplot(5,1,3)
+        plot_control_effort(control_effort(:,3), tout, 3, 'm')
+        subplot(5,1,4)
+        plot_control_effort(control_effort(:,4), tout, 4, 'g')
+        subplot(5,1,5)
+        plot_control_effort(control_effort(:,5), tout, 5, 'c')
     end
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -90,14 +92,16 @@ function plotGraphics(Thr, Thd, dThr, dThd, ddThr, ddThd, x_realizado, y_realiza
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if angular_position_error_plot_bool == 1
         figure;
-        % subplot(2,1,1)
-        plot(tout,angular_position_error(:,1),'b',tout,angular_position_error(:,2),'r', ...
-             tout,angular_position_error(:,3),'m',tout,angular_position_error(:,4),'g', ...
-             tout,angular_position_error(:,5),'c');
-        % title('Erro')
-        grid('on')
-        xlabel('Tempo (s)'); ylabel('Ângulo (º)')
-        legend('e_1', 'e_2', 'e_3', 'e_4', 'e_5', 'FontSize', 11);
+        subplot(5,1,1)
+        plot_angular_position_error(angular_position_error(:,1), tout, 1, 'b')
+        subplot(5,1,2)
+        plot_angular_position_error(angular_position_error(:,2), tout, 2, 'r')
+        subplot(5,1,3)
+        plot_angular_position_error(angular_position_error(:,3), tout, 3, 'm')
+        subplot(5,1,4)
+        plot_angular_position_error(angular_position_error(:,4), tout, 4, 'g')
+        subplot(5,1,5)
+        plot_angular_position_error(angular_position_error(:,5), tout, 5, 'c')
     end
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -168,6 +172,9 @@ function plotGraphics(Thr, Thd, dThr, dThd, ddThr, ddThd, x_realizado, y_realiza
         plot_resultant_torque(tal_res(:,5), tout, 5, 'c')
     end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                        Plot Cartesian Path
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if cartesian_path_plot_bool == 1
         figure;
         % Plot desired trajectory
@@ -218,6 +225,26 @@ function plotGraphics(Thr, Thd, dThr, dThd, ddThr, ddThd, x_realizado, y_realiza
         ylabel('Aceleração [º/s^2]')
         legend(strcat('$\ddot{\theta}_{',int2str(joint_number),'r}$'), strcat( ...
              '$\ddot{\theta}^d_', int2str(joint_number),'$'), 'Interpreter', 'latex','FontSize',12);
+        set(gca,'FontSize',8)
+    end
+
+    function plot_control_effort(control_effort, tout, joint_number, color)
+        plot(tout,control_effort,color);
+        title(strcat('Esforço de Controle na junta',{' '},int2str(joint_number)))
+        grid('on')
+        xlabel('Tempo [s]')
+        ylabel('Tensão (V)')
+        legend('V_1', 'V_2', 'V_3', 'V_4', 'V_5', 'FontSize', 11);
+        set(gca,'FontSize',8)
+    end
+
+    function plot_angular_position_error(angular_position_error, tout, joint_number, color)
+        plot(tout,angular_position_error,color);
+        title(strcat('Erro da Posição angular da junta',{' '},int2str(joint_number)))
+        grid('on')
+        xlabel('Tempo [s]')
+        ylabel('Ângulo (º)')
+        legend('e_1', 'e_2', 'e_3', 'e_4', 'e_5', 'FontSize', 11);
         set(gca,'FontSize',8)
     end
 
