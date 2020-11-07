@@ -1,5 +1,22 @@
 close all
 
+K = (90/12)*(2*pi/60); % Motor de 90 rpm para 12 V
+%     K = 48.69;
+Jeff = 0.5;
+Beff = 50;
+%T = Jeff/Beff;
+r = 1./[231.22*4 139.138 139.138 231.22 231.22]; % Relacoes de engrenagem
+%r = 1./[231.22*4 139.138 139.138]; % Relacoes de engrenagem
+
+xi = 1;
+wn = 15; % chute // fazer o bode para tirar o wn
+Kd = (2*xi*wn*Jeff - Beff)/K;
+Kp = (wn^2*Jeff)/K;
+N = 3;
+
+Td = Kd/Kp;
+Ts = 1/100;
+
 amp = 5;
 freq = 2*pi*0.5;
 Fs = 1.5;
@@ -8,7 +25,7 @@ alpha = 0.1;
 sigma0 = 1e4;
 sigma1 = 0.5e3;
 sigma2 = 1;
-% SP_theta = [0,0,0,0,0];
+SP_theta = [0,0,0,0,0];
 
 % Fs = 0.5;
 % Fc = 0.2;
@@ -16,16 +33,6 @@ sigma2 = 1;
 
 tal_F_array = [];
 dThr_array = [];
-
-% for i=-50:50
-%     amp = i;
-%     sim('ControleFF_nao_linearidade')
-%     tal_F_array = [tal_F_array tal_F.signals.values(end,1)];
-%     dThr_array = [dThr_array dThr.signals.values(end,1)];
-% end
-% 
-% figure;
-% plot(dThr_array, tal_F_array)
 
 sim('ControleFF_nao_linearidade')
 

@@ -1,7 +1,7 @@
 function [th_realizado, th_desejado, dth_realizado, dth_desejado, ddth_realizado, ddth_desejado, ...
           esforco_controle, theta_erro, G, V, tal_res, tal_motor, tout] = control_robotic_arm(T, trajectory)
     
-      addpath(strcat(fileparts(fileparts(pwd)),'\03. Controle'))
+    addpath(strcat(fileparts(fileparts(pwd)),'\03. Controle'))
       
     % Check if Simulink model is open
 %     if slreportgen.utils.isModelLoaded('ControleFF_trajetoria_D_integrado')
@@ -10,7 +10,9 @@ function [th_realizado, th_desejado, dth_realizado, dth_desejado, ddth_realizado
     
 %     set_param('ControleFF_trajetoria_D_integrado','StartTime','0','StopTime',num2str(T))
 %     sim('ControleFF_trajetoria_D_integrado')
-    
+%     SP_theta = pi/180*[trajectory(1,1), trajectory(2,1), trajectory(3,1), trajectory(4,1), trajectory(5,1)];
+%     save('SP_theta.mat', 'SP_theta');
+%     load('SP_theta.mat');
     set_param('ControleFF_trajetoria_D_integrado','StartTime','0','StopTime',num2str(T))
     set_param('ControleFF_trajetoria_D_integrado/Dinâmica do robô/Int_Thr', 'InitialCondition', mat2str(pi/180*[trajectory(1,1), trajectory(2,1), trajectory(3,1), trajectory(4,1), trajectory(5,1)]));
     sim('ControleFF_trajetoria_D_integrado')
