@@ -12,6 +12,7 @@ w2 = mean(velPlantaDecimate(length(velPlantaDecimate)*2/3:length(velPlantaDecima
 zinf = w2-w1;
 K = zinf/deltaVm; % rad/s/V
 phi = K*Vm1-w1;
+% phi = 43.47;
 % 0.63*zinf+w1
 T = 0.01;
 

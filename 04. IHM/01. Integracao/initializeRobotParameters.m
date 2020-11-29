@@ -20,26 +20,6 @@ function initializeRobotParameters()
     
     % Non linearity parameters
     phi = 43.47;
-%     phi = 0.1;
-
-
-%     K = 17.7;
-%     Jeff = 2.2;
-%     Beff = 50;
-%     T = Jeff/Beff;
-%     r = [0.001 0.007 0.007];
-% 
-%     % Calculo parâmetros de controle
-%     qsi = 1;
-%     wn =10; % chute
-%     Kd = (2*qsi*wn*Jeff - Beff)/K;
-%     Kp = (wn^2*Jeff)/K;
-%     N = 10;
-% 
-%     % N = 15; % chute
-%     % Kd = Kp*Td;
-%     Td = Kd/Kp;
-%     Ts = 1/100;
     
     assignin('base', "K", K);
     assignin('base', "r", r);

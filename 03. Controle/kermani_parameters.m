@@ -2,108 +2,47 @@ close all
 clear all
 
 Jeff = 0.5;
-Beff = 1;
-K = (90/12)*(2*pi/60); % Motor de 90 rpm para 12 V
+Beff = 50;
+% K = (90/12)*(2*pi/60); % Motor de 90 rpm para 12 V
+% K = 40; % ganho do sistema linear
+Km = 4000;
+Km_NL = 4.8694e+03;
+R = 2; % resistencia da armadura do motor [Ohm]
+K = Km/(R*Beff); % ganho do sistema linear
+K_NL = Km_NL/(R*Beff); % ganho do sistema linear
 %T = Jeff/Beff;
 r = 1./[231.22*4 139.138 139.138 231.22 231.22]; % Relacoes de engrenagem
-
-xi = 1;
-wn = 15; % chute // fazer o bode para tirar o wn
-Kd = (2*xi*wn*Jeff - Beff)/K;
-Kp = (wn^2*Jeff)/K;
-N = 3;
-
-Td = Kd/Kp;
-Ts = 1/100;
+h = 0.0175; % Backlash width
+phi = 43.47;
 
 amp = 5;
 
-% freq = 2*pi*0.1;
-% Fs = 1.9;
-% Fc = 100;
-% alpha = 1;
-% sigma0 = 400;
-% sigma1 = 150;
-% sigma2 = 0.2;
-
 SP_theta = [0,0,0,0,0];
 
-% sim('ControleFF_nao_linearidade')
-% 
-% dThr = dThr.signals.values;
-% tal_F = tal_F.signals.values;
-% esforco_controle = esforco_controle.signals.values;
-% 
-% figure;
-% subplot(2,1,1)
-% plot(dThr(:,1), tal_F(:,1))
-% xlabel('Velocidade [rad/s]')
-% ylabel('Torque de atrito [N.m]')
-% set(gca,'FontSize',10)
-% 
-% subplot(2,1,2)
-% plot(esforco_controle(:,1), dThr(:,1))
-% xlabel('Esforço de controle [V]')
-% ylabel('Velocidade [rad/s]')
-% set(gca,'FontSize',10)
-% 
-% title(strcat('freq=', num2str(freq), 'Fs=', num2str(Fs), ...
-%     'Fc=', num2str(Fc), 'alpha=', num2str(alpha), ... 
-%     'sigma0=', num2str(sigma0), 'sigma1=', num2str(sigma1), 'sigma2=', num2str(sigma2)))
+freq = 0.1;
+Fs = (phi+10)*Beff;
+Fc = phi*Beff;
+alpha = 1.25;
+sigma0 = 200*Beff;
+sigma1 = 20*Beff;
+sigma2 = 0.2*Beff;
 
-freq_vec = [0.1];
-Fs_vec = [2];
-Fc_vec = [2];
-alpha_vec = [10];
-sigma0_vec = [1000];
-sigma1_vec = [100];
-sigma2_vec = [0.2];
+sim('ControleNL_Degrau')
+tal_F = tal_F.signals.values;
+dThr = dThr.signals.values;
+figure;
+subplot(2,1,1)
+plot(dThr(:,1), tal_F(:,1))
+xlabel('Velocidade [rad/s]')
+ylabel('Torque de atrito [N.m]')
+set(gca,'FontSize',10)
+subplot(2,1,2)
+esforco_controle = esforco_controle.signals.values;
+plot(esforco_controle(:,1), dThr(:,1))
+xlabel('Esforço de controle [V]')
+ylabel('Velocidade [rad/s]')
+set(gca,'FontSize',10)
 
-for i=1:length(freq_vec)
-    for j=1:length(Fs_vec)
-        for k=1:length(Fc_vec)
-            for l=1:length(alpha_vec)
-                for m=1:length(sigma0_vec)
-                    for n=1:length(sigma1_vec)
-                        for o=1:length(sigma2_vec)
-                            freq = 2*pi*freq_vec(i);
-                            Fs = Fs_vec(j);
-                            Fc = Fc_vec(k);
-                            alpha = alpha_vec(l);
-                            sigma0 = sigma0_vec(m);
-                            sigma1 = sigma1_vec(n);
-                            sigma2 = sigma2_vec(o);
-                            sim('ControleFF_nao_linearidade')
-
-                            dThr = dThr.signals.values;
-                            tal_F = tal_F.signals.values;
-                            esforco_controle = esforco_controle.signals.values;
-
-                            figure;
-                            subplot(2,1,1)
-                            plot(dThr(:,1), tal_F(:,1))
-                            xlabel('Velocidade [rad/s]')
-                            ylabel('Torque de atrito [N.m]')
-                            set(gca,'FontSize',10)
-
-                            subplot(2,1,2)
-                            plot(esforco_controle(:,1), dThr(:,1))
-                            xlabel('Esforço de controle [V]')
-                            ylabel('Velocidade [rad/s]')
-                            set(gca,'FontSize',10)
-                            
-                            title(strcat('freq=', num2str(freq), 'Fs=', num2str(Fs), ...
-                                'Fc=', num2str(Fc), 'alpha=', num2str(alpha), ... 
-                                'sigma0=', num2str(sigma0), 'sigma1=', num2str(sigma1), 'sigma2=', num2str(sigma2)))
-                        end
-                    end
-                end
-            end
-        end
-    end
-end
-
-% tal_F = tal_F.signals.values;
 % 
 % figure;
 % subplot(5,1,1)
@@ -117,7 +56,6 @@ end
 % subplot(5,1,5)
 % plot_friction_force(tal_F(:,5), tout, 5, 'c')
 % 
-% dThr = dThr.signals.values;
 % 
 % figure;
 % subplot(5,1,1)
@@ -159,7 +97,6 @@ end
 % subplot(5,1,5)
 % plot_coriolis_centrifugal_forces(V(:,5), tout, 5, 'c')
 % 
-% esforco_controle = esforco_controle.signals.values;
 % tal_motor = tal_motor.signals.values;
 % 
 % figure;
@@ -182,18 +119,7 @@ end
 % subplot(4,1,4)
 % plot_motor_force(tal_motor(:,1), tout, 1, 'b')
 % 
-% figure;
-% subplot(2,1,1)
-% plot(dThr(:,1), tal_F(:,1))
-% xlabel('Velocidade [rad/s]')
-% ylabel('Torque de atrito [N.m]')
-% set(gca,'FontSize',10)
-% 
-% subplot(2,1,2)
-% plot(esforco_controle(:,1), dThr(:,1))
-% xlabel('Esforço de controle [V]')
-% ylabel('Velocidade [rad/s]')
-% set(gca,'FontSize',10)
+
 
 function plot_friction_force(tal_F, tout, joint_number, color)
     plot(tout,tal_F,color);

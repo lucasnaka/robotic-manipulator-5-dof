@@ -15,13 +15,13 @@ r = 1./[231.22*4 139.138 139.138 231.22 231.22]; % Relacoes de engrenagem
 
 amp = 0.01;
 omega = 2*pi*0.01;
-h = 0.002; % Backlash width
+h = 0.02; % Backlash width
 
 SP_theta = [0,0,0,0,0];
 
 %% Simulação em malha aberta
 
-out = sim('ControleFF_D_NL_backlash_2020a');
+out = sim('backlash_effect');
 
 %% Plots em malha aberta
 
